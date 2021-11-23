@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-var rootDir = "../inputs"
+var rootDir = "../inputs/2020"
 
 func LinesAsString(day uint) []string {
 	df := filepath.Join(rootDir, fmt.Sprintf("%d.txt", day))

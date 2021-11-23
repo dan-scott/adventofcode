@@ -5,6 +5,8 @@ import (
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day01"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day02"
+	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day03"
+	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day04"
 	"time"
 )
 
@@ -12,6 +14,8 @@ func main() {
 	days := []internal.Day{
 		day01.Solver(),
 		day02.Solver(),
+		day03.Solver(),
+		day04.Solver(),
 	}
 
 	for i, d := range days {
@@ -33,7 +37,7 @@ func main() {
 		start = time.Now()
 		res = d.Part2()
 		end = time.Now()
-		fmt.Printf(" solved in %dns", end.Sub(start).Microseconds())
+		fmt.Printf(" solved in %dns", end.Sub(start).Nanoseconds())
 		fmt.Printf("\t\t%s\n\n", res)
 
 		d.Close()
