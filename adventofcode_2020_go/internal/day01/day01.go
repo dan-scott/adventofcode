@@ -6,7 +6,7 @@ import (
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
 )
 
-func Solver() internal.Day {
+func New() internal.Day {
 	return &day01{}
 }
 

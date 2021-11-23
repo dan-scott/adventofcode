@@ -83,6 +83,6 @@ func (d *day03) Part2() string {
 	return fmt.Sprint(total)
 }
 
-func Solver() internal.Day {
+func New() internal.Day {
 	return &day03{}
 }

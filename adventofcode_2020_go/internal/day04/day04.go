@@ -5,7 +5,6 @@ import (
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -60,24 +59,24 @@ func complexValid(e entry) bool {
 		return false
 	}
 
-	byr := mustParseUint(e["byr"])
+	byr := internal.MustParseUint(e["byr"])
 	if byr < 1920 || byr > 2002 {
 		return false
 	}
 
-	iyr := mustParseUint(e["iyr"])
+	iyr := internal.MustParseUint(e["iyr"])
 	if iyr < 2010 || iyr > 2020 {
 		return false
 	}
 
-	eyr := mustParseUint(e["eyr"])
+	eyr := internal.MustParseUint(e["eyr"])
 	if eyr < 2020 || eyr > 2030 {
 		return false
 	}
 
 	hgt := e["hgt"]
 	hU := hgt[len(hgt)-2:]
-	hV := mustParseUint(hgt[:len(hgt)-2])
+	hV := internal.MustParseUint(hgt[:len(hgt)-2])
 	if hU == "cm" {
 		if hV < 150 || hV > 193 {
 			return false
@@ -105,11 +104,6 @@ func complexValid(e entry) bool {
 	return true
 }
 
-func mustParseUint(s string) uint {
-	v, _ := strconv.ParseUint(s, 10, 64)
-	return uint(v)
-}
-
 func (d *day04) Close() {
 	d.entries = nil
 }
@@ -134,6 +128,6 @@ func (d *day04) Part2() string {
 	return fmt.Sprint(sum)
 }
 
-func Solver() internal.Day {
+func New() internal.Day {
 	return &day04{}
 }

@@ -65,6 +65,6 @@ func (d *day02) Part2() string {
 	return fmt.Sprint(valid)
 }
 
-func Solver() internal.Day {
+func New() internal.Day {
 	return &day02{}
 }
