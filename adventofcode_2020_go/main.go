@@ -11,6 +11,7 @@ import (
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day06"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day07"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day08"
+	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day09"
 	"time"
 )
 
@@ -24,6 +25,7 @@ func main() {
 		day06.New(),
 		day07.New(),
 		day08.New(),
+		day09.New(),
 	}
 
 	allStart := time.Now()
