@@ -17,6 +17,7 @@ import (
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day12"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day13"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day14"
+	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day15"
 	"time"
 )
 
@@ -36,6 +37,7 @@ func main() {
 		day12.New(),
 		day13.New(),
 		day14.New(),
+		day15.New(),
 	}
 
 	allStart := time.Now()
@@ -47,23 +49,23 @@ func main() {
 		d.Open()
 		end := time.Now()
 		diff := end.Sub(start)
-		fmt.Printf("\t  loaded in %10dns (%dms)\n", diff.Nanoseconds(), diff.Milliseconds())
+		fmt.Printf("\t  loaded in %10dns (% 6dms)\n", diff.Nanoseconds(), diff.Milliseconds())
 
 		fmt.Printf("\tSolving part 1...")
 		start = time.Now()
 		res := d.Part1()
 		end = time.Now()
 		diff = end.Sub(start)
-		fmt.Printf(" solved in %10dns (%dms)", diff.Nanoseconds(), diff.Milliseconds())
-		fmt.Printf("\t\t%s\n", res)
+		fmt.Printf(" solved in %10dns (% 6dms)", diff.Nanoseconds(), diff.Milliseconds())
+		fmt.Printf("%20s\n", res)
 
 		fmt.Printf("\tSolving part 2...")
 		start = time.Now()
 		res = d.Part2()
 		end = time.Now()
 		diff = end.Sub(start)
-		fmt.Printf(" solved in %10dns (%dms)", diff.Nanoseconds(), diff.Milliseconds())
-		fmt.Printf("\t\t%s\n\n", res)
+		fmt.Printf(" solved in %10dns (% 6dms)", diff.Nanoseconds(), diff.Milliseconds())
+		fmt.Printf("%20s\n\n", res)
 
 		d.Close()
 	}
