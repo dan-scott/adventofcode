@@ -2,8 +2,8 @@ package day10
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"sort"
 )
 
@@ -12,7 +12,7 @@ type day10 struct {
 }
 
 func (d *day10) Open() {
-	d.loadLines(inputs.LinesAsInt(10))
+	d.loadLines(inputs.LinesAsInt(2020, 10))
 }
 func (d *day10) loadLines(lines []int) {
 	d.adapters = lines
@@ -51,6 +51,6 @@ func (d *day10) Part2() string {
 	return fmt.Sprint(pathCt[d.adapters[len(d.adapters)-1]])
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day10{}
 }

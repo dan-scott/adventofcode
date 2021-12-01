@@ -2,8 +2,8 @@ package day06
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 )
 
 type day06 struct {
@@ -16,7 +16,7 @@ type group struct {
 }
 
 func (d *day06) Open() {
-	lines := inputs.LinesAsString(6)
+	lines := inputs.LinesAsString(2020, 6)
 	d.loadLines(lines)
 }
 
@@ -63,6 +63,6 @@ func (d *day06) loadLines(lines []string) {
 	}
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day06{}
 }

@@ -3,8 +3,8 @@ package day11
 import (
 	"bytes"
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"strings"
 )
 
@@ -166,7 +166,7 @@ func (d *deck) countRayNeighbours(i int) int {
 }
 
 func (d *day11) Open() {
-	d.loadLines(inputs.LinesAsString(11))
+	d.loadLines(inputs.LinesAsString(2020, 11))
 }
 
 func (d *day11) loadString(s string) {
@@ -204,6 +204,6 @@ func (d *day11) Part2() string {
 	return fmt.Sprint(current.pop)
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day11{}
 }

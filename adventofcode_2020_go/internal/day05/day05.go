@@ -2,8 +2,8 @@ package day05
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"math"
 	"sort"
 )
@@ -17,7 +17,7 @@ type seat struct {
 }
 
 func (d *day05) Open() {
-	lines := inputs.LinesAsString(5)
+	lines := inputs.LinesAsString(2020, 5)
 	d.loadPasses(lines)
 }
 
@@ -86,6 +86,6 @@ func (d *day05) Part2() string {
 	return "not found"
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day05{}
 }

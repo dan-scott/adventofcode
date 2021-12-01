@@ -56,3 +56,12 @@ func TestPart2(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkPart2(b *testing.B) {
+	d := &day15{}
+	d.load("1,0,16,5,17,4")
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		d.Part1()
+	}
+}

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day01"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day02"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day03"
@@ -18,11 +16,12 @@ import (
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day13"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day14"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day15"
-	"time"
+	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal/day16"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 )
 
 func main() {
-	days := []internal.Day{
+	days := []runner.Day{
 		day01.New(),
 		day02.New(),
 		day03.New(),
@@ -38,40 +37,8 @@ func main() {
 		day13.New(),
 		day14.New(),
 		day15.New(),
+		day16.New(),
 	}
 
-	allStart := time.Now()
-
-	for i, d := range days {
-
-		fmt.Printf("Loading Day %d....", i+1)
-		start := time.Now()
-		d.Open()
-		end := time.Now()
-		diff := end.Sub(start)
-		fmt.Printf("\t  loaded in %10dns (% 6dms)\n", diff.Nanoseconds(), diff.Milliseconds())
-
-		fmt.Printf("\tSolving part 1...")
-		start = time.Now()
-		res := d.Part1()
-		end = time.Now()
-		diff = end.Sub(start)
-		fmt.Printf(" solved in %10dns (% 6dms)", diff.Nanoseconds(), diff.Milliseconds())
-		fmt.Printf("%20s\n", res)
-
-		fmt.Printf("\tSolving part 2...")
-		start = time.Now()
-		res = d.Part2()
-		end = time.Now()
-		diff = end.Sub(start)
-		fmt.Printf(" solved in %10dns (% 6dms)", diff.Nanoseconds(), diff.Milliseconds())
-		fmt.Printf("%20s\n\n", res)
-
-		d.Close()
-	}
-
-	allEnd := time.Now()
-
-	fmt.Printf("\nSolutions completed in %dms\n", allEnd.Sub(allStart).Milliseconds())
-
+	runner.Run(days)
 }

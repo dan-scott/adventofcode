@@ -2,8 +2,9 @@ package day04
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"regexp"
 	"strings"
 )
@@ -17,7 +18,7 @@ type entry = map[string]string
 func (d *day04) Open() {
 	entries := make([]entry, 0)
 
-	lines := inputs.LinesAsString(4)
+	lines := inputs.LinesAsString(2020, 4)
 	i := 0
 	for i < len(lines) {
 		current := make(entry)
@@ -128,6 +129,6 @@ func (d *day04) Part2() string {
 	return fmt.Sprint(sum)
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day04{}
 }

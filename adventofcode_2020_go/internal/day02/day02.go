@@ -2,8 +2,8 @@ package day02
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"strconv"
 	"strings"
 )
@@ -24,7 +24,7 @@ func (p policy) String() string {
 }
 
 func (d *day02) Open() {
-	lines := inputs.LinesAsString(2)
+	lines := inputs.LinesAsString(2020, 2)
 	ins := make([]policy, len(lines))
 	for i, l := range lines {
 		tokens := strings.Split(l, " ")
@@ -65,6 +65,6 @@ func (d *day02) Part2() string {
 	return fmt.Sprint(valid)
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day02{}
 }

@@ -2,11 +2,11 @@ package day01
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 )
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day01{}
 }
 
@@ -15,7 +15,7 @@ type day01 struct {
 }
 
 func (d *day01) Open() {
-	d.inpts = inputs.LinesAsInt(1)
+	d.inpts = inputs.LinesAsInt(2020, 1)
 }
 
 func (d *day01) Close() {

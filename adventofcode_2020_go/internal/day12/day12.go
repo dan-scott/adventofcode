@@ -2,8 +2,8 @@ package day12
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"math"
 	"strconv"
 )
@@ -61,7 +61,7 @@ type day12 struct {
 }
 
 func (d *day12) Open() {
-	d.loadLines(inputs.LinesAsString(12))
+	d.loadLines(inputs.LinesAsString(2020, 12))
 }
 
 func (d *day12) loadLines(lines []string) {
@@ -131,6 +131,6 @@ func (d *day12) rotateWp(deg int64) {
 	}
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day12{}
 }

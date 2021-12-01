@@ -3,8 +3,8 @@ package day08
 import (
 	"errors"
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"strconv"
 )
 
@@ -65,7 +65,7 @@ type op struct {
 }
 
 func (d *day08) Open() {
-	lines := inputs.LinesAsString(8)
+	lines := inputs.LinesAsString(2020, 8)
 	d.loadLines(lines)
 }
 
@@ -124,6 +124,6 @@ func (d *day08) Part2() string {
 	return "too bad"
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day08{}
 }

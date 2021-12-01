@@ -2,8 +2,8 @@ package day03
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 )
 
 type day03 struct {
@@ -12,7 +12,7 @@ type day03 struct {
 }
 
 func (d *day03) Open() {
-	lines := inputs.LinesAsString(3)
+	lines := inputs.LinesAsString(2020, 3)
 	d.grid, d.w, d.h = lines, len(lines[0]), len(lines)
 }
 
@@ -83,6 +83,6 @@ func (d *day03) Part2() string {
 	return fmt.Sprint(total)
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day03{}
 }

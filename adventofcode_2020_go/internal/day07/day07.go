@@ -2,8 +2,9 @@ package day07
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
 	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"strings"
 )
 
@@ -73,7 +74,7 @@ func (b *bag) countKids() uint {
 }
 
 func (d *day07) Open() {
-	lines := inputs.LinesAsString(7)
+	lines := inputs.LinesAsString(2020, 7)
 	d.loadLines(lines)
 }
 
@@ -157,6 +158,6 @@ func parseLine(l string) (bn bagName, children []child) {
 	return
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day07{}
 }

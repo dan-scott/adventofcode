@@ -3,8 +3,8 @@ package day09
 import (
 	"errors"
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"math"
 )
 
@@ -13,7 +13,7 @@ type day09 struct {
 }
 
 func (d *day09) Open() {
-	lines := inputs.LinesAsInt(9)
+	lines := inputs.LinesAsInt(2020, 9)
 	d.loadLines(lines)
 }
 
@@ -71,6 +71,6 @@ Outer:
 	return 0, errors.New("no invalid numbers found")
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day09{}
 }

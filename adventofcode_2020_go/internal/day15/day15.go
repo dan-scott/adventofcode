@@ -2,8 +2,8 @@ package day15
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"strconv"
 	"strings"
 )
@@ -13,7 +13,7 @@ type day15 struct {
 }
 
 func (d *day15) Open() {
-	d.load(inputs.LinesAsString(15)[0])
+	d.load(inputs.LinesAsString(2020, 15)[0])
 }
 
 func (d *day15) load(line string) {
@@ -44,16 +44,10 @@ func (d *day15) callForTurn(maxTurns int) string {
 	last := 0
 	next := 0
 
-	for turn := 0; turn < maxTurns; turn++ {
-		if turn < len(d.init) {
-			next = d.init[turn]
-		} else {
-			if !called[last] {
-				next = 0
-			} else {
-				next = turn - lastCall[last]
-			}
-		}
+	ic := len(d.init)
+
+	for turn := 0; turn < ic; turn++ {
+		next = d.init[turn]
 		if turn > 0 {
 			called[last] = true
 			lastCall[last] = turn
@@ -61,9 +55,20 @@ func (d *day15) callForTurn(maxTurns int) string {
 		last = next
 	}
 
+	for turn := ic; turn < maxTurns; turn++ {
+		if !called[last] {
+			next = 0
+		} else {
+			next = turn - lastCall[last]
+		}
+		called[last] = true
+		lastCall[last] = turn
+		last = next
+	}
+
 	return fmt.Sprint(last)
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day15{}
 }

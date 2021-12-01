@@ -8,11 +8,9 @@ import (
 	"strconv"
 )
 
-var RootDir = "../inputs/2020"
-
-func LinesAsString(day uint) []string {
-	df := filepath.Join(RootDir, fmt.Sprintf("%d.txt", day))
-
+func LinesAsString(year, day uint) []string {
+	wd, _ := os.Getwd()
+	df := filepath.Join(wd, "inputs", fmt.Sprint(year), fmt.Sprintf("%d.txt", day))
 	f, err := os.Open(df)
 	if err != nil {
 		panic(fmt.Sprintf("Error reading lines from input file %s: %v", df, err))
@@ -34,8 +32,8 @@ func LinesAsString(day uint) []string {
 	return lines
 }
 
-func LinesAsInt(day uint) []int {
-	lines := LinesAsString(day)
+func LinesAsInt(year, day uint) []int {
+	lines := LinesAsString(year, day)
 	intLs := make([]int, len(lines))
 	for i, s := range lines {
 		if val, err := strconv.ParseInt(s, 10, 64); err != nil {

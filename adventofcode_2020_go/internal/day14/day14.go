@@ -2,8 +2,8 @@ package day14
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/inputs"
-	"gitlab.com/danscott/adventofcode/adventofcode_2020_go/internal"
+	"gitlab.com/danscott/adventofcode/base_go/inputs"
+	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"math"
 	"sort"
 	"strconv"
@@ -59,7 +59,7 @@ func maskAddr(mask string, maskFloats []uint64, in uint64) []uint64 {
 }
 
 func (d *day14) Open() {
-	d.loadLines(inputs.LinesAsString(14))
+	d.loadLines(inputs.LinesAsString(2020, 14))
 }
 
 func (d *day14) Close() {
@@ -148,6 +148,6 @@ func (d *day14) Part2() string {
 	return fmt.Sprint(total)
 }
 
-func New() internal.Day {
+func New() runner.Day {
 	return &day14{}
 }
