@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"gitlab.com/danscott/adventofcode/base_go/inputs"
 	"gitlab.com/danscott/adventofcode/base_go/runner"
-	"strconv"
-	"strings"
 )
 
 type day02 struct {
@@ -24,14 +22,13 @@ func (d *day02) Part1() string {
 	dpt := int64(0)
 	hrz := int64(0)
 	for _, o := range d.ops {
-		pts := strings.Split(o, " ")
-		val, _ := strconv.ParseInt(pts[1], 10, 64)
-		switch pts[0] {
-		case "forward":
+		val := int64(o[len(o)-1] - '0')
+		switch o[0] {
+		case 'f':
 			hrz += val
-		case "up":
+		case 'u':
 			dpt -= val
-		case "down":
+		case 'd':
 			dpt += val
 		}
 	}
@@ -43,15 +40,14 @@ func (d *day02) Part2() string {
 	hrz := int64(0)
 	aim := int64(0)
 	for _, o := range d.ops {
-		pts := strings.Split(o, " ")
-		val, _ := strconv.ParseInt(pts[1], 10, 64)
-		switch pts[0] {
-		case "forward":
+		val := int64(o[len(o)-1] - '0')
+		switch o[0] {
+		case 'f':
 			hrz += val
 			dpt += val * aim
-		case "up":
+		case 'u':
 			aim -= val
-		case "down":
+		case 'd':
 			aim += val
 		}
 	}
