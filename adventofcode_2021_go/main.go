@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"gitlab.com/danscott/adventofcode/adventofcode_2021_go/internal/day01"
+	"gitlab.com/danscott/adventofcode/adventofcode_2021_go/internal/day02"
 	"gitlab.com/danscott/adventofcode/base_go/runner"
 	"time"
 )
@@ -10,6 +11,7 @@ import (
 func main() {
 	days := []runner.Day{
 		day01.New(),
+		day02.New(),
 	}
 
 	runner.Run(days)
