@@ -22,14 +22,14 @@ func Run(days []Day) {
 		d.Open()
 		end := time.Now()
 		diff := end.Sub(start)
-		fmt.Printf("\t  loaded in %10dns (% 6dms)\n", diff.Nanoseconds(), diff.Milliseconds())
+		fmt.Printf("\t  loaded in %15s\n", diff.String())
 
 		fmt.Printf("\tSolving part 1...")
 		start = time.Now()
 		res := d.Part1()
 		end = time.Now()
 		diff = end.Sub(start)
-		fmt.Printf(" solved in %10dns (% 6dms)", diff.Nanoseconds(), diff.Milliseconds())
+		fmt.Printf(" solved in %15s", diff.String())
 		fmt.Printf("%20s\n", res)
 
 		fmt.Printf("\tSolving part 2...")
@@ -37,7 +37,7 @@ func Run(days []Day) {
 		res = d.Part2()
 		end = time.Now()
 		diff = end.Sub(start)
-		fmt.Printf(" solved in %10dns (% 6dms)", diff.Nanoseconds(), diff.Milliseconds())
+		fmt.Printf(" solved in %15s", diff.String())
 		fmt.Printf("%20s\n\n", res)
 
 		d.Close()
@@ -45,5 +45,5 @@ func Run(days []Day) {
 
 	allEnd := time.Now()
 
-	fmt.Printf("\nSolutions completed in %dms\n", allEnd.Sub(allStart).Milliseconds())
+	fmt.Printf("\nSolutions completed in %s\n", allEnd.Sub(allStart).String())
 }
