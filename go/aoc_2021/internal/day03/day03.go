@@ -24,12 +24,14 @@ func (d *day03) Close() {
 }
 
 func (d *day03) Part1() string {
-	bitCt, zct, oct := bitCts(d.bins)
+	zct := zeroCt(d.bins)
+	bitCt := len(d.bins[0])
 	gamma := 0
 	epsilon := 0
+	half := len(d.bins) / 2
 	for i := 0; i < bitCt; i++ {
 		val := 1 << (bitCt - i - 1)
-		if zct[i] > oct[i] {
+		if zct[i] >= half {
 			gamma += val
 		} else {
 			epsilon += val
@@ -39,61 +41,77 @@ func (d *day03) Part1() string {
 	return fmt.Sprint(gamma * epsilon)
 }
 
-func bitCts(lines []string) (bitCt int, zct, oct []int) {
-	bitCt = len(lines[0])
-	zct = make([]int, bitCt)
-	oct = make([]int, bitCt)
+func zeroCt(lines []string) []int {
+	zct := make([]int, len(lines[0]))
 	for _, n := range lines {
 		for i, c := range n {
 			if c == '0' {
 				zct[i]++
-			} else {
-				oct[i]++
 			}
 		}
 	}
-	return
+	return zct
 }
 
 func (d *day03) Part2() string {
-	filter := make([]string, len(d.bins))
-	copy(filter, d.bins)
-	bit := 0
-	for len(filter) > 1 {
-		_, zct, oct := bitCts(filter)
-		common := uint8('1')
-		if zct[bit] > oct[bit] {
-			common = '0'
-		}
-		nOgr := make([]string, 0)
-		for _, b := range filter {
-			if b[bit] == common {
-				nOgr = append(nOgr, b)
+	ogChan := make(chan int64, 1)
+	go func(filter []string, ch chan int64) {
+		bit := 0
+		zct := zeroCt(filter)
+		for len(filter) > 1 {
+			common := uint8('1')
+			if zct[bit] > len(filter)/2 {
+				common = '0'
 			}
-		}
-		filter = nOgr
-		bit++
-	}
-	ogr, _ := strconv.ParseInt(filter[0], 2, 32)
-	filter = make([]string, len(d.bins))
-	copy(filter, d.bins)
-	bit = 0
-	for len(filter) > 1 {
-		_, zct, oct := bitCts(filter)
-		common := uint8('0')
-		if zct[bit] > oct[bit] {
-			common = '1'
-		}
-		nOgr := make([]string, 0)
-		for _, b := range filter {
-			if b[bit] == common {
-				nOgr = append(nOgr, b)
+			nOgr := make([]string, 0)
+			for _, b := range filter {
+				if b[bit] == common {
+					nOgr = append(nOgr, b)
+				} else {
+					for i, n := range b {
+						if n == '0' {
+							zct[i]--
+						}
+					}
+				}
 			}
+			filter = nOgr
+			bit++
 		}
-		filter = nOgr
-		bit++
-	}
-	co2, _ := strconv.ParseInt(filter[0], 2, 32)
+		ogr, _ := strconv.ParseInt(filter[0], 2, 32)
+		ch <- ogr
+	}(d.bins, ogChan)
+
+	co2Chan := make(chan int64, 1)
+	go func(filter []string, ch chan int64) {
+		bit := 0
+		zct := zeroCt(filter)
+		for len(filter) > 1 {
+			common := uint8('0')
+			if zct[bit] > len(filter)/2 {
+				common = '1'
+			}
+			nOgr := make([]string, 0)
+			for _, b := range filter {
+				if b[bit] == common {
+					nOgr = append(nOgr, b)
+				} else {
+					for i, n := range b {
+						if n == '0' {
+							zct[i]--
+						}
+					}
+				}
+			}
+			filter = nOgr
+			bit++
+		}
+		co2, _ := strconv.ParseInt(filter[0], 2, 32)
+		ch <- co2
+	}(d.bins, co2Chan)
+
+	ogr := <-ogChan
+	co2 := <-co2Chan
 	return fmt.Sprint(ogr * co2)
 }
 
