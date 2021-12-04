@@ -4,57 +4,38 @@ import (
 	"fmt"
 	"gitlab.com/danscott/adventofcode/go/common/inputs"
 	"gitlab.com/danscott/adventofcode/go/common/runner"
+	"gitlab.com/danscott/adventofcode/go/common/vec2"
 	"strconv"
 	"strings"
 )
 
 type day04 struct {
+	calls  int
 	nums   []int64
 	boards []*board
 }
 
 type board struct {
 	hasWon bool
+	valMap map[int64]vec2.Vec2
+	colCt  []int
+	rowCt  []int
 	values [][]int64
 	marked [][]bool
 }
 
-func (b *board) reset() {
-	for i := range b.marked {
-		b.marked[i] = make([]bool, 5)
-	}
-	b.hasWon = false
-}
-
 func (b *board) call(num int64) {
-	for y, r := range b.values {
-		for x, v := range r {
-			if v == num {
-				b.marked[y][x] = true
-				return
-			}
-		}
-	}
-}
-
-func (b *board) won() bool {
-	for i := 0; i < 5; i++ {
-		hCt := 0
-		vCt := 0
-		for j := 0; j < 5; j++ {
-			if b.marked[i][j] {
-				vCt++
-			}
-			if b.marked[j][i] {
-				hCt++
-			}
-		}
-		if vCt == 5 || hCt == 5 {
+	if pos, ok := b.valMap[num]; ok {
+		b.marked[pos.Y][pos.X] = true
+		b.rowCt[pos.Y]++
+		b.colCt[pos.X]++
+		if b.rowCt[pos.Y] == 5 {
 			b.hasWon = true
-			return true
+		}
+		if b.colCt[pos.X] == 5 {
+			b.hasWon = true
 		}
 	}
-	return false
 }
 
 func (b *board) sumUnmarked() int64 {
@@ -79,15 +60,14 @@ func (d *day04) Close() {
 }
 
 func (d *day04) Part1() string {
-	for i, c := range d.nums {
-		for _, b := range d.boards {
+	for _, c := range d.nums {
+		d.calls++
+		for i, b := range d.boards {
 			b.call(c)
-		}
-		if i > 3 {
-			for _, b := range d.boards {
-				if b.won() {
-					return fmt.Sprint(b.sumUnmarked() * c)
-				}
+			if b.hasWon {
+				d.boards[i] = d.boards[len(d.boards)-1]
+				d.boards = d.boards[:len(d.boards)-1]
+				return fmt.Sprint(b.sumUnmarked() * c)
 			}
 		}
 	}
@@ -96,25 +76,32 @@ func (d *day04) Part1() string {
 }
 
 func (d *day04) Part2() string {
-	lastWon := 0
+	var lastWon *board
 	lastCall := int64(0)
-	for _, c := range d.nums {
-		for i, b := range d.boards {
-			if !b.hasWon {
-				b.call(c)
-				if b.won() {
-					lastWon = i
-					lastCall = c
-				}
+	boards := make([]*board, len(d.boards))
+	copy(boards, d.boards)
+	next := make([]*board, len(d.boards))
+	for _, c := range d.nums[d.calls:] {
+		lostCt := 0
+		for _, b := range boards {
+			b.call(c)
+			if b.hasWon {
+				lastWon = b
+				lastCall = c
+			} else {
+				next[lostCt] = b
+				lostCt++
 			}
 		}
+		boards = next[:lostCt]
 	}
-	return fmt.Sprint(d.boards[lastWon].sumUnmarked() * lastCall)
+	return fmt.Sprint(lastWon.sumUnmarked() * lastCall)
 }
 
 func (d *day04) loadLines(lines []string) {
-	d.nums = parseNums(lines[0], ",")
+	d.nums = parseNums(lines[0])
 	d.boards = parseBoards(lines[1:])
+	d.calls = 0
 }
 
 func parseBoards(lines []string) []*board {
@@ -122,19 +109,34 @@ func parseBoards(lines []string) []*board {
 	for len(lines) > 0 {
 		bLines := lines[1:6]
 		lines = lines[6:]
+		valMap := make(map[int64]vec2.Vec2, 25)
+		colCt := make([]int, 5)
+		rowCt := make([]int, 5)
 		values := make([][]int64, 5)
 		marked := make([][]bool, 5)
-		for i, l := range bLines {
-			values[i] = parseNums(l, " ")
-			marked[i] = make([]bool, 5)
+		for row, l := range bLines {
+			values[row] = make([]int64, 5)
+			for col := 0; col < 5; col++ {
+				v, _ := strconv.ParseInt(strings.TrimSpace(l[col*3:col*3+2]), 10, 32)
+				values[row][col] = v
+				valMap[v] = vec2.Of(int64(col), int64(row))
+			}
+			marked[row] = make([]bool, 5)
 		}
-		boards = append(boards, &board{false, values, marked})
+		boards = append(boards, &board{
+			hasWon: false,
+			valMap: valMap,
+			colCt:  colCt,
+			rowCt:  rowCt,
+			values: values,
+			marked: marked,
+		})
 	}
 	return boards
 }
 
-func parseNums(numLine string, sep string) []int64 {
-	ns := strings.Split(strings.ReplaceAll(strings.TrimSpace(numLine), fmt.Sprintf("%s%s", sep, sep), sep), sep)
+func parseNums(numLine string) []int64 {
+	ns := strings.Split(numLine, ",")
 	nums := make([]int64, len(ns))
 	for i, n := range ns {
 		nums[i], _ = strconv.ParseInt(n, 10, 64)
