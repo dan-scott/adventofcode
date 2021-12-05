@@ -16,17 +16,18 @@ type day04 struct {
 }
 
 type board struct {
-	hasWon bool
-	valMap map[int64]vec2.Vec2
-	colCt  []int
-	rowCt  []int
-	values [][]int64
-	marked [][]bool
+	hasWon   bool
+	valMap   map[int64]vec2.Vec2
+	colCt    []int
+	rowCt    []int
+	unmarked int64
+	marked   [][]bool
 }
 
 func (b *board) call(num int64) {
 	if pos, ok := b.valMap[num]; ok {
 		b.marked[pos.Y][pos.X] = true
+		b.unmarked -= num
 		b.rowCt[pos.Y]++
 		b.colCt[pos.X]++
 		if b.rowCt[pos.Y] == 5 {
@@ -36,18 +37,6 @@ func (b *board) call(num int64) {
 			b.hasWon = true
 		}
 	}
-}
-
-func (b *board) sumUnmarked() int64 {
-	sum := int64(0)
-	for y, r := range b.marked {
-		for x, m := range r {
-			if !m {
-				sum += b.values[y][x]
-			}
-		}
-	}
-	return sum
 }
 
 func (d *day04) Open() {
@@ -67,7 +56,7 @@ func (d *day04) Part1() string {
 			if b.hasWon {
 				d.boards[i] = d.boards[len(d.boards)-1]
 				d.boards = d.boards[:len(d.boards)-1]
-				return fmt.Sprint(b.sumUnmarked() * c)
+				return fmt.Sprint(b.unmarked * c)
 			}
 		}
 	}
@@ -95,7 +84,7 @@ func (d *day04) Part2() string {
 		}
 		boards = next[:lostCt]
 	}
-	return fmt.Sprint(lastWon.sumUnmarked() * lastCall)
+	return fmt.Sprint(lastWon.unmarked * lastCall)
 }
 
 func (d *day04) loadLines(lines []string) {
@@ -112,24 +101,23 @@ func parseBoards(lines []string) []*board {
 		valMap := make(map[int64]vec2.Vec2, 25)
 		colCt := make([]int, 5)
 		rowCt := make([]int, 5)
-		values := make([][]int64, 5)
 		marked := make([][]bool, 5)
+		unmarked := int64(0)
 		for row, l := range bLines {
-			values[row] = make([]int64, 5)
 			for col := 0; col < 5; col++ {
 				v, _ := strconv.ParseInt(strings.TrimSpace(l[col*3:col*3+2]), 10, 32)
-				values[row][col] = v
+				unmarked += v
 				valMap[v] = vec2.Of(int64(col), int64(row))
 			}
 			marked[row] = make([]bool, 5)
 		}
 		boards = append(boards, &board{
-			hasWon: false,
-			valMap: valMap,
-			colCt:  colCt,
-			rowCt:  rowCt,
-			values: values,
-			marked: marked,
+			hasWon:   false,
+			valMap:   valMap,
+			colCt:    colCt,
+			rowCt:    rowCt,
+			marked:   marked,
+			unmarked: unmarked,
 		})
 	}
 	return boards
