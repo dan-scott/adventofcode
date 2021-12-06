@@ -30,5 +30,16 @@ public class Day01 : IDay
         .Item1
         .ToString();
 
-    public string Part2() => "";
+    public string Part2() => Readings
+        .Skip(3)
+        .Aggregate(
+            (0, Readings[0], Readings[1], Readings[2]),
+            (agg, curr) => 
+                ((agg.Item2 + agg.Item3 + agg.Item4) < (agg.Item3 + agg.Item4 + curr)
+                    ? agg.Item1 + 1
+                    : agg.Item1,
+                agg.Item3, agg.Item4, curr))
+        .Item1
+        .ToString();
+                
 }
