@@ -34,7 +34,7 @@ func (d *day06) genFish(days int) string {
 	}
 	for i := 0; i < days; i++ {
 		total += current[0]
-		current = append(current[1:7], current[0]+current[7], current[8], current[0])
+		current[0], current[1], current[2], current[3], current[4], current[5], current[6], current[7], current[8] = current[1], current[2], current[3], current[4], current[5], current[6], current[7]+current[0], current[8], current[0]
 	}
 	return fmt.Sprint(total)
 }
