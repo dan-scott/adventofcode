@@ -23,22 +23,27 @@ func (d *day05) Close() {
 }
 
 func (d *day05) Part1() string {
-	plot := make(map[vec2.Vec2]int)
+	plot := make([][]int, 1000)
+	for i := d.min.X; i <= d.max.X; i++ {
+		plot[i] = make([]int, 1000)
+	}
+	ct := 0
 	for _, l := range d.lines {
 		if l[0].X == l[1].X {
 			for y := minY(l); y <= maxY(l); y++ {
-				plot[vec2.Of(l[0].X, y)]++
+				plot[l[0].X][y]++
+
+				if plot[l[0].X][y] == 2 {
+					ct++
+				}
 			}
 		} else if l[0].Y == l[1].Y {
 			for x := minX(l); x <= maxX(l); x++ {
-				plot[vec2.Of(x, l[0].Y)]++
+				plot[x][l[0].Y]++
+				if plot[x][l[0].Y] == 2 {
+					ct++
+				}
 			}
-		}
-	}
-	ct := 0
-	for _, p := range plot {
-		if p > 1 {
-			ct++
 		}
 	}
 	return fmt.Sprint(ct)
@@ -77,34 +82,44 @@ func gradient(line []vec2.Vec2) int64 {
 }
 
 func (d *day05) Part2() string {
-	plot := make(map[vec2.Vec2]int)
+	plot := make([][]int, 1000)
+	for i := d.min.X; i <= d.max.X; i++ {
+		plot[i] = make([]int, 1000)
+	}
+	ct := 0
 	for _, l := range d.lines {
 		if l[0].X == l[1].X {
 			for y := minY(l); y <= maxY(l); y++ {
-				plot[vec2.Of(l[0].X, y)]++
+				plot[l[0].X][y]++
+				if plot[l[0].X][y] == 2 {
+					ct++
+				}
 			}
 		} else if l[0].Y == l[1].Y {
 			for x := minX(l); x <= maxX(l); x++ {
-				plot[vec2.Of(x, l[0].Y)]++
+				plot[x][l[0].Y]++
+				if plot[x][l[0].Y] == 2 {
+					ct++
+				}
 			}
 		} else if gradient(l) > 0 {
 			x := minX(l)
 			for y := minY(l); y <= maxY(l); y++ {
-				plot[vec2.Of(x, y)]++
+				plot[x][y]++
+				if plot[x][y] == 2 {
+					ct++
+				}
 				x++
 			}
 		} else {
 			x := minX(l)
 			for y := maxY(l); y >= minY(l); y-- {
-				plot[vec2.Of(x, y)]++
+				plot[x][y]++
+				if plot[x][y] == 2 {
+					ct++
+				}
 				x++
 			}
-		}
-	}
-	ct := 0
-	for _, p := range plot {
-		if p > 1 {
-			ct++
 		}
 	}
 	return fmt.Sprint(ct)
