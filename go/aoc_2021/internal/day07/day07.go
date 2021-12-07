@@ -12,6 +12,7 @@ import (
 
 type day07 struct {
 	crabs []int64
+	bin   bool
 }
 
 func (d *day07) Open() {
@@ -19,9 +20,21 @@ func (d *day07) Open() {
 }
 
 func (d *day07) Close() {
+	d.crabs = nil
 }
 
 func (d *day07) Part1() string {
+	if d.bin {
+		return d.part1Binary()
+	}
+	return d.part1Initial()
+}
+
+func (d *day07) Part2() string {
+	return d.part2Initial()
+}
+
+func (d *day07) part1Initial() string {
 	min := int64(math.MaxInt64)
 	for pos := d.crabs[0]; pos <= d.crabs[len(d.crabs)-1]; pos++ {
 		cost := int64(0)
@@ -34,13 +47,15 @@ func (d *day07) Part1() string {
 		}
 		if cost < min {
 			min = cost
+		} else {
+			break
 		}
 	}
 
 	return fmt.Sprint(min)
 }
 
-func (d *day07) Part2() string {
+func (d *day07) part2Initial() string {
 	min := int64(math.MaxInt64)
 	for pos := d.crabs[0]; pos <= d.crabs[len(d.crabs)-1]; pos++ {
 		cost := int64(0)
@@ -53,10 +68,59 @@ func (d *day07) Part2() string {
 		}
 		if cost < min {
 			min = cost
+		} else {
+			break
 		}
 	}
 
 	return fmt.Sprint(min)
+}
+
+func (d *day07) part1Binary() string {
+	lIdx := 0
+	rIdx := len(d.crabs) - 1
+	for lIdx != rIdx {
+		mIdx := lIdx + (rIdx-lIdx)/2
+		lCost := d.costAt(lIdx)
+		rCost := d.costAt(rIdx)
+		if lCost > rCost {
+			lIdx = mIdx
+		} else {
+			rIdx = mIdx
+		}
+	}
+	return fmt.Sprint(d.costAt(lIdx))
+}
+
+func dst(a, b int64) int64 {
+	d := a - b
+	if d < 0 {
+		return -d
+	}
+	return d
+}
+
+func sumDst(a, b int64) int64 {
+	n := dst(a, b)
+	return (n * (n + 1)) / 2
+}
+
+func (d *day07) costAt(idx int) int64 {
+	cost := int64(0)
+	pos := d.crabs[idx]
+	for _, crab := range d.crabs {
+		cost += dst(pos, crab)
+	}
+	return cost
+}
+
+func (d *day07) sumCostAt(idx int) int64 {
+	cost := int64(0)
+	pos := d.crabs[idx]
+	for _, crab := range d.crabs {
+		cost += sumDst(pos, crab)
+	}
+	return cost
 }
 
 func (d *day07) load(s string) {
@@ -72,5 +136,5 @@ func (d *day07) load(s string) {
 }
 
 func New() runner.Day {
-	return &day07{}
+	return &day07{bin: true}
 }
