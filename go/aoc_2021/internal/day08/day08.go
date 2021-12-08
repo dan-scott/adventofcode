@@ -84,10 +84,7 @@ func (dy *day08) Part2() string {
 }
 
 func findLenSixes(e entry, cf, eg string) (zero, six, nine string) {
-	for _, s := range e.signals {
-		if len(s) != 6 {
-			continue
-		}
+	for _, s := range e.signals[6:9] {
 		hasEG := contains(s, eg)
 		hasCF := contains(s, cf)
 		if hasEG && hasCF {
@@ -102,7 +99,7 @@ func findLenSixes(e entry, cf, eg string) (zero, six, nine string) {
 }
 
 func findLenFives(ent entry, b, e string) (two, three, five string) {
-	for _, s := range ent.signals {
+	for _, s := range ent.signals[3:6] {
 		if len(s) != 5 {
 			continue
 		}
@@ -128,12 +125,7 @@ func subtract(a, b string) string {
 }
 
 func contains(a, b string) bool {
-	for i := 0; i < len(b); i++ {
-		if !strings.Contains(a, b[i:i+1]) {
-			return false
-		}
-	}
-	return true
+	return len(a)-len(subtract(a, b)) == len(b)
 }
 
 func parseEntry(l string) entry {
