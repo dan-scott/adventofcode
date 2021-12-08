@@ -1,6 +1,6 @@
+.vscode/
 .idea
 .vscode/
 obj/
 bin/
-target/
-*.DotSettings.user
+rust/**/target/
