@@ -17,21 +17,6 @@ fn open_file(year: u16, day: u8) -> BufReader<File> {
     return BufReader::new(read);
 }
 
-pub fn lines(year: u16, day: u8) -> Vec<String> {
-    return open_file(year, day)
-        .lines()
-        .enumerate()
-        .map(|(_, r)| r.unwrap())
-        .collect();
-}
-
-// pub fn blob(year: u16, day: u8) -> String {
-//     let mut buffer = String::new();
-//     open_file(year, day)
-//         .read_to_string(&mut buffer).unwrap();
-//     return buffer.to_string();
-// }
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -41,10 +26,4 @@ mod tests {
         let loaded_lines = lines(2021, 1);
         assert_ne!(loaded_lines.len(), 0)
     }
-
-    // #[test]
-    // fn it_loads_blobs() {
-    //     let blob_string = blob(2021, 1);
-    //     assert_ne!(blob_string.len(), 0)
-    // }
 }
