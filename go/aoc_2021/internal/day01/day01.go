@@ -23,7 +23,6 @@ func (d *day01) Close() {
 }
 
 func (d *day01) Part1() string {
-
 	ct := 0
 	for i, m := range d.ms[1:] {
 		if m > d.ms[i] {

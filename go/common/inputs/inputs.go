@@ -8,7 +8,9 @@ import (
 	"strconv"
 )
 
-func LinesAsString(year, day uint) []string {
+type CloseFn = func()
+
+func Scanner(year, day uint) (*bufio.Scanner, CloseFn) {
 	rootDir := ".."
 	if d, ok := os.LookupEnv("ADVENT_OF_CODE_ROOT"); ok {
 		rootDir = d
@@ -21,16 +23,18 @@ func LinesAsString(year, day uint) []string {
 	if err != nil {
 		panic(fmt.Sprintf("Error reading lines from input file %s: %v", df, err))
 	}
-	defer func(f *os.File) {
+	return bufio.NewScanner(f), func() {
 		err := f.Close()
 		if err != nil {
 			panic(err)
 		}
-	}(f)
+	}
+}
 
-	s := bufio.NewScanner(f)
+func LinesAsString(year, day uint) []string {
 	lines := make([]string, 0)
-
+	s, close := Scanner(year, day)
+	defer close()
 	for s.Scan() {
 		lines = append(lines, s.Text())
 	}
