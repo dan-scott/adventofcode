@@ -7,21 +7,22 @@ import (
 )
 
 type day02 struct {
-	ops []string
+	//ops []string
 }
 
 func (d *day02) Open() {
-	d.ops = inputs.LinesAsString(2021, 2)
 }
 
 func (d *day02) Close() {
-	d.ops = nil
 }
 
 func (d *day02) Part1() string {
+	s, close := inputs.Scanner(2021, 2)
+	defer close()
 	dpt := int64(0)
 	hrz := int64(0)
-	for _, o := range d.ops {
+	for s.Scan() {
+		o := s.Text()
 		val := int64(o[len(o)-1] - '0')
 		switch o[0] {
 		case 'f':
@@ -36,10 +37,13 @@ func (d *day02) Part1() string {
 }
 
 func (d *day02) Part2() string {
+	s, close := inputs.Scanner(2021, 2)
+	defer close()
 	dpt := int64(0)
 	hrz := int64(0)
 	aim := int64(0)
-	for _, o := range d.ops {
+	for s.Scan() {
+		o := s.Text()
 		val := int64(o[len(o)-1] - '0')
 		switch o[0] {
 		case 'f':
