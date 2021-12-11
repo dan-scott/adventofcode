@@ -49,35 +49,35 @@ func (d *day05) Part1() string {
 	return fmt.Sprint(ct)
 }
 
-func maxY(line []vec2.Vec2) int64 {
+func maxY(line []vec2.Vec2) int {
 	if line[0].Y > line[1].Y {
 		return line[0].Y
 	}
 	return line[1].Y
 }
 
-func minY(line []vec2.Vec2) int64 {
+func minY(line []vec2.Vec2) int {
 	if line[0].Y < line[1].Y {
 		return line[0].Y
 	}
 	return line[1].Y
 }
 
-func maxX(line []vec2.Vec2) int64 {
+func maxX(line []vec2.Vec2) int {
 	if line[0].X > line[1].X {
 		return line[0].X
 	}
 	return line[1].X
 }
 
-func minX(line []vec2.Vec2) int64 {
+func minX(line []vec2.Vec2) int {
 	if line[0].X < line[1].X {
 		return line[0].X
 	}
 	return line[1].X
 }
 
-func gradient(line []vec2.Vec2) int64 {
+func gradient(line []vec2.Vec2) int {
 	return (line[1].X - line[0].X) / (line[1].Y - line[0].Y)
 }
 
@@ -166,7 +166,7 @@ func parseVec(s string) vec2.Vec2 {
 	ns := strings.Split(s, ",")
 	x, _ := strconv.ParseInt(ns[0], 10, 64)
 	y, _ := strconv.ParseInt(ns[1], 10, 64)
-	return vec2.Of(x, y)
+	return vec2.OfInt64(x, y)
 }
 
 func New() runner.Day {

@@ -14,8 +14,8 @@ type day09 struct {
 }
 
 func (d *day09) Open() {
-	s, close := inputs.Scanner(2021, 9)
-	defer close()
+	s, closeScanner := inputs.Scanner(2021, 9)
+	defer closeScanner()
 	d.grid = make([][]uint8, 0, 100)
 	for s.Scan() {
 		l := s.Text()
@@ -74,7 +74,7 @@ func (d *day09) notLocalMin(x, y int) bool {
 
 func (d *day09) calcFloodFill(x int, y int) int {
 	queue := make([]vec2.Vec2, 1)
-	queue[0] = vec2.Of(int64(x), int64(y))
+	queue[0] = vec2.Of(x, y)
 	visited := make(map[vec2.Vec2]interface{}, 0)
 	size := 0
 	for len(queue) > 0 {
@@ -91,13 +91,13 @@ func (d *day09) calcFloodFill(x int, y int) int {
 		if n.X > 0 {
 			queue = append(queue, vec2.Of(n.X-1, n.Y))
 		}
-		if n.X < int64(d.width) {
+		if n.X < d.width {
 			queue = append(queue, vec2.Of(n.X+1, n.Y))
 		}
 		if n.Y > 0 {
 			queue = append(queue, vec2.Of(n.X, n.Y-1))
 		}
-		if n.Y < int64(d.height) {
+		if n.Y < d.height {
 			queue = append(queue, vec2.Of(n.X, n.Y+1))
 		}
 	}

@@ -9,13 +9,53 @@ import (
 
 type day11 struct {
 	lines []string
-	w, h  int64
+}
+
+type cave struct {
+	jellies []uint8
+	w, h    int
+}
+
+func parseCave(lines []string) *cave {
+	jellies, w, h := parseLines(lines)
+	return &cave{jellies, w, h}
+}
+
+func (c *cave) iterate() int {
+	next := make([]uint8, len(c.jellies))
+	flashed := make([]bool, len(c.jellies))
+	toReset := make([]int, 0, len(c.jellies))
+	toFlash := make([]int, 0, len(c.jellies))
+	for j, e := range c.jellies {
+		next[j] = e + 1
+		if next[j] > 9 {
+			toFlash = append(toFlash, j)
+		}
+	}
+	for len(toFlash) > 0 {
+		j := toFlash[0]
+		toFlash = toFlash[1:]
+		if flashed[j] {
+			continue
+		}
+		flashed[j] = true
+		toReset = append(toReset, j)
+		for _, nj := range c.neighbours(j) {
+			next[nj]++
+			if next[nj] > 9 && !flashed[nj] {
+				toFlash = append(toFlash, nj)
+			}
+		}
+	}
+	for _, j := range toReset {
+		next[j] = 0
+	}
+	c.jellies = next
+	return len(toReset)
 }
 
 func (d *day11) Open() {
 	d.lines = inputs.LinesAsString(2021, 11)
-	d.w = int64(len(d.lines[0]))
-	d.h = int64(len(d.lines))
 }
 
 func (d *day11) Close() {
@@ -23,90 +63,39 @@ func (d *day11) Close() {
 }
 
 func (d *day11) Part1() string {
-	current := d.parseLines()
 	flashCt := 0
+	cave := parseCave(d.lines)
 	for iter := 0; iter < 100; iter++ {
-		flashed := make(map[vec2.Vec2]bool, len(current))
-		flashes := make([]vec2.Vec2, 0, len(current))
-		next := make(map[vec2.Vec2]uint8, len(current))
-		for p, v := range current {
-			next[p] = v + 1
-			if v == 9 {
-				flashes = append(flashes, p)
-			}
-		}
-		for len(flashes) > 0 {
-			f := flashes[0]
-			flashes = flashes[1:]
-			if flashed[f] {
-				continue
-			}
-			flashed[f] = true
-			flashCt++
-			for _, p := range d.neighbours(f) {
-				next[p]++
-				if next[p] > 9 && !flashed[p] {
-					flashes = append(flashes, p)
-				}
-			}
-		}
-		for p := range flashed {
-			next[p] = 0
-		}
-		current = next
+		flashCt += cave.iterate()
 	}
 	return fmt.Sprint(flashCt)
 }
 
 func (d *day11) Part2() string {
-	current := d.parseLines()
+	cave := parseCave(d.lines)
 	iter := 0
 	for true {
+		if iter > 1000 {
+			break
+		}
 		iter++
-		flashCt := 0
-		flashed := make(map[vec2.Vec2]bool, len(current))
-		flashes := make([]vec2.Vec2, 0, len(current))
-		next := make(map[vec2.Vec2]uint8, len(current))
-		for p, v := range current {
-			next[p] = v + 1
-			if v == 9 {
-				flashes = append(flashes, p)
-			}
-		}
-		for len(flashes) > 0 {
-			f := flashes[0]
-			flashes = flashes[1:]
-			if flashed[f] {
-				continue
-			}
-			flashed[f] = true
-			flashCt++
-			for _, p := range d.neighbours(f) {
-				next[p]++
-				if next[p] > 9 && !flashed[p] {
-					flashes = append(flashes, p)
-				}
-			}
-		}
-		for p := range flashed {
-			next[p] = 0
-		}
-		current = next
-		if flashCt == 100 {
+		if cave.iterate() == 100 {
 			return fmt.Sprint(iter)
 		}
 	}
-	return ""
+	return "Too many iterations..."
 }
 
-func (d *day11) parseLines() map[vec2.Vec2]uint8 {
-	startGrid := make(map[vec2.Vec2]uint8, len(d.lines)*len(d.lines[0]))
-	for y, l := range d.lines {
-		for x := 0; x < len(d.lines[0]); x++ {
-			startGrid[vec2.OfInt(x, y)] = l[x] - '0'
+func parseLines(lines []string) (jellies []uint8, w, h int) {
+	w = len(lines[0])
+	h = len(lines)
+	jellies = make([]uint8, w*h)
+	for y, l := range lines {
+		for x := 0; x < w; x++ {
+			jellies[y*w+x] = l[x] - '0'
 		}
 	}
-	return startGrid
+	return
 }
 
 var neighbourDeltas = []vec2.Vec2{
@@ -120,19 +109,26 @@ var neighbourDeltas = []vec2.Vec2{
 	vec2.Of(+1, +1),
 }
 
-func (d *day11) neighbours(flash vec2.Vec2) []vec2.Vec2 {
-	ns := make([]vec2.Vec2, 0, 8)
+var nCache = make([][]int, 1000)
+
+func (c *cave) neighbours(flash int) []int {
+	if nCache[flash] != nil {
+		return nCache[flash]
+	}
+	ns := make([]int, 0, 8)
+	fp := vec2.OfIndex(flash, c.w)
 	for _, nd := range neighbourDeltas {
-		n := flash.Add(nd)
-		if d.valid(n) {
-			ns = append(ns, n)
+		n := fp.Add(nd)
+		if c.valid(n) {
+			ns = append(ns, n.Index(c.w))
 		}
 	}
+	nCache[flash] = ns
 	return ns
 }
 
-func (d *day11) valid(v vec2.Vec2) bool {
-	return v.X >= 0 && v.X < d.w && v.Y >= 0 && v.Y < d.h
+func (c *cave) valid(v vec2.Vec2) bool {
+	return v.X >= 0 && v.X < c.w && v.Y >= 0 && v.Y < c.h
 }
 
 func New() runner.Day {

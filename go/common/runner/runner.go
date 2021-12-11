@@ -2,7 +2,7 @@ package runner
 
 import (
 	"fmt"
-	"time"
+	time "github.com/loov/hrtime"
 )
 
 type Day interface {
@@ -18,32 +18,24 @@ func Run(days []Day) {
 	for i, d := range days {
 
 		fmt.Printf("Loading Day %d....", i+1)
-		start := time.Now()
+		startLoad := time.Now()
 		d.Open()
-		end := time.Now()
-		diff := end.Sub(start)
-		fmt.Printf("\t  loaded in %15s\n", diff.String())
+		fmt.Printf("\t  loaded in %15s \n", time.Since(startLoad).String())
 
 		fmt.Printf("\tSolving part 1...")
-		start = time.Now()
+		startP1 := time.Now()
 		res := d.Part1()
-		end = time.Now()
-		diff = end.Sub(start)
-		fmt.Printf(" solved in %15s", diff.String())
+		fmt.Printf(" solved in %15s", time.Since(startP1).String())
 		fmt.Printf("%20s\n", res)
 
 		fmt.Printf("\tSolving part 2...")
-		start = time.Now()
+		startP2 := time.Now()
 		res = d.Part2()
-		end = time.Now()
-		diff = end.Sub(start)
-		fmt.Printf(" solved in %15s", diff.String())
+		fmt.Printf(" solved in %15s", time.Since(startP2).String())
 		fmt.Printf("%20s\n\n", res)
 
 		d.Close()
 	}
 
-	allEnd := time.Now()
-
-	fmt.Printf("\nSolutions completed in %s\n", allEnd.Sub(allStart).String())
+	fmt.Printf("\nSolutions completed in %s\n", time.Since(allStart).String())
 }

@@ -107,7 +107,7 @@ func parseBoards(lines []string) []*board {
 			for col := 0; col < 5; col++ {
 				v, _ := strconv.ParseInt(strings.TrimSpace(l[col*3:col*3+2]), 10, 32)
 				unmarked += v
-				valMap[v] = vec2.Of(int64(col), int64(row))
+				valMap[v] = vec2.Of(col, row)
 			}
 			marked[row] = make([]bool, 5)
 		}
