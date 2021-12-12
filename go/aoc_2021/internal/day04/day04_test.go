@@ -20,9 +20,11 @@ func TestDay04_Part2(t *testing.T) {
 	}
 }
 
-func BenchmarkDay04_Open(b *testing.B) {
+func BenchmarkDay04_getInitialBoards(b *testing.B) {
+	d := &day04{}
+	d.Open()
 	for i := 0; i < b.N; i++ {
-		New().Open()
+		d.getInitialBoards()
 	}
 }
 

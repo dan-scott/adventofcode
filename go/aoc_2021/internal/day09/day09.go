@@ -75,15 +75,16 @@ func (d *day09) notLocalMin(x, y int) bool {
 func (d *day09) calcFloodFill(x int, y int) int {
 	queue := make([]vec2.Vec2, 1)
 	queue[0] = vec2.Of(x, y)
-	visited := make(map[vec2.Vec2]interface{}, 0)
+	visited := make([]bool, (d.width+1)*(d.height+1))
 	size := 0
 	for len(queue) > 0 {
 		n := queue[0]
 		queue = queue[1:]
-		if _, ok := visited[n]; ok {
+		idx := n.Index(d.width)
+		if visited[idx] {
 			continue
 		}
-		visited[n] = nil
+		visited[idx] = true
 		if d.grid[n.Y][n.X] == 9 {
 			continue
 		}

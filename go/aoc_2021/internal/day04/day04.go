@@ -10,9 +10,8 @@ import (
 )
 
 type day04 struct {
-	calls  int
-	nums   []int64
-	boards []*board
+	nums       []int64
+	boardInput []string
 }
 
 type board struct {
@@ -45,17 +44,16 @@ func (d *day04) Open() {
 
 func (d *day04) Close() {
 	d.nums = nil
-	d.boards = nil
 }
 
 func (d *day04) Part1() string {
+	boards := d.getInitialBoards()
 	for _, c := range d.nums {
-		d.calls++
-		for i, b := range d.boards {
+		for i, b := range boards {
 			b.call(c)
 			if b.hasWon {
-				d.boards[i] = d.boards[len(d.boards)-1]
-				d.boards = d.boards[:len(d.boards)-1]
+				boards[i] = boards[len(boards)-1]
+				boards = boards[:len(boards)-1]
 				return fmt.Sprint(b.unmarked * c)
 			}
 		}
@@ -67,10 +65,9 @@ func (d *day04) Part1() string {
 func (d *day04) Part2() string {
 	var lastWon *board
 	lastCall := int64(0)
-	boards := make([]*board, len(d.boards))
-	copy(boards, d.boards)
-	next := make([]*board, len(d.boards))
-	for _, c := range d.nums[d.calls:] {
+	boards := d.getInitialBoards()
+	next := make([]*board, len(boards))
+	for _, c := range d.nums {
 		lostCt := 0
 		for _, b := range boards {
 			b.call(c)
@@ -89,12 +86,13 @@ func (d *day04) Part2() string {
 
 func (d *day04) loadLines(lines []string) {
 	d.nums = parseNums(lines[0])
-	d.boards = parseBoards(lines[1:])
-	d.calls = 0
+	d.boardInput = lines[1:]
 }
 
-func parseBoards(lines []string) []*board {
+func (d *day04) getInitialBoards() []*board {
 	boards := make([]*board, 0)
+	lines := make([]string, len(d.boardInput))
+	copy(lines, d.boardInput)
 	for len(lines) > 0 {
 		bLines := lines[1:6]
 		lines = lines[6:]
