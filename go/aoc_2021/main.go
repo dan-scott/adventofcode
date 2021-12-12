@@ -12,6 +12,7 @@ import (
 	"gitlab.com/danscott/adventofcode/go/aoc_2021/internal/day09"
 	"gitlab.com/danscott/adventofcode/go/aoc_2021/internal/day10"
 	"gitlab.com/danscott/adventofcode/go/aoc_2021/internal/day11"
+	"gitlab.com/danscott/adventofcode/go/aoc_2021/internal/day12"
 	"gitlab.com/danscott/adventofcode/go/common/runner"
 )
 
@@ -28,6 +29,7 @@ func main() {
 		day09.New(),
 		day10.New(),
 		day11.New(),
+		day12.New(),
 	}
 
 	runner.Run(days)
