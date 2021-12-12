@@ -5,11 +5,16 @@
         <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>AdventOfCode._2021</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
+        <EnablePreviewFeatures>True</EnablePreviewFeatures>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\AdventOfCode.Base\AdventOfCode.Base.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Runtime.Experimental" Version="6.0.0" />
     </ItemGroup>
 
 </Project>
