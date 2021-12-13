@@ -14,6 +14,13 @@ type day13 struct {
 	lines []string
 }
 
+type paper = map[vec2.Vec2]interface{}
+
+type fold struct {
+	axis string
+	num  int
+}
+
 func (d *day13) Open() {
 	d.lines = inputs.LinesAsString(2021, 13)
 }
@@ -23,68 +30,27 @@ func (d *day13) Close() {
 }
 
 func (d *day13) Part1() string {
-	paper, folds := d.parse()
-	for _, f := range folds[:1] {
-		switch f.axis {
-		case "y":
-			for p := range paper {
-				if p.Y < f.num {
-					continue
-				}
-				paper[vec2.Of(p.X, 2*f.num-p.Y)] = nil
-				delete(paper, p)
-			}
-		case "x":
-			for p := range paper {
-				if p.X < f.num {
-					continue
-				}
-				paper[vec2.Of(2*f.num-p.X, p.Y)] = nil
-				delete(paper, p)
-			}
-		}
-	}
-	return fmt.Sprint(len(paper))
+	p, folds := d.parse()
+	p = doFold(p, folds[0])
+	return fmt.Sprint(len(p))
 }
 
 func (d *day13) Part2() string {
-	paper, folds := d.parse()
+	p, folds := d.parse()
 	for _, f := range folds {
-		switch f.axis {
-		case "y":
-			for p := range paper {
-				if p.Y < f.num {
-					continue
-				}
-				paper[vec2.Of(p.X, 2*f.num-p.Y)] = nil
-				delete(paper, p)
-			}
-		case "x":
-			for p := range paper {
-				if p.X < f.num {
-					continue
-				}
-				paper[vec2.Of(2*f.num-p.X, p.Y)] = nil
-				delete(paper, p)
-			}
-		}
+		p = doFold(p, f)
 	}
-	return printMap(paper)
+	return printMap(p)
 }
 
-type fold struct {
-	axis string
-	num  int
-}
-
-func (d *day13) parse() (paper map[vec2.Vec2]interface{}, folds []fold) {
-	paper = make(map[vec2.Vec2]interface{}, len(d.lines))
+func (d *day13) parse() (p paper, folds []fold) {
+	p = make(paper, len(d.lines))
 	i := 0
 	for d.lines[i] != "" {
 		parts := strings.Split(d.lines[i], ",")
 		x, _ := strconv.ParseInt(parts[0], 10, 64)
 		y, _ := strconv.ParseInt(parts[1], 10, 64)
-		paper[vec2.OfInt64(x, y)] = nil
+		p[vec2.OfInt64(x, y)] = nil
 		i++
 	}
 	i++
@@ -99,12 +65,33 @@ func (d *day13) parse() (paper map[vec2.Vec2]interface{}, folds []fold) {
 	}
 	return
 }
+func doFold(p paper, f fold) paper {
+	switch f.axis {
+	case "y":
+		for dot := range p {
+			if dot.Y < f.num {
+				continue
+			}
+			p[vec2.Of(dot.X, 2*f.num-dot.Y)] = nil
+			delete(p, dot)
+		}
+	case "x":
+		for dot := range p {
+			if dot.X < f.num {
+				continue
+			}
+			p[vec2.Of(2*f.num-dot.X, dot.Y)] = nil
+			delete(p, dot)
+		}
+	}
+	return p
+}
 
 func New() runner.Day {
 	return &day13{}
 }
 
-func printMap(m map[vec2.Vec2]interface{}) string {
+func printMap(m paper) string {
 	max := vec2.Of(0, 0)
 	for p := range m {
 		if p.X > max.X {
