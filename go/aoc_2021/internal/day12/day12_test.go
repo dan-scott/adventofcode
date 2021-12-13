@@ -32,7 +32,7 @@ func BenchmarkDay12_Part1(b *testing.B) {
 }
 
 func BenchmarkDay12_Part2(b *testing.B) {
-	d := New()
+	d := &day12{}
 	d.Open()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
