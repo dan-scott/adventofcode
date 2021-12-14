@@ -4,3 +4,4 @@
 obj/
 bin/
 rust/**/target/
+*.DotSettings.user
