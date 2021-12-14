@@ -20,18 +20,13 @@ public class Day02 : IDay
         _lines = Inputs.Lines(2021, 2).ToList();
     }
 
-    public string Part1()
-    {
-        throw new NotImplementedException();
-    }
+    public string Part1() => Run(Sub.New());
 
-    public string Part2()
-    {
-        throw new NotImplementedException();
-    }
-}
+    public string Part2() => Run(AimedSub.New());
+    
+    private string Run(ISub sub) => Lines
+        .Select(Instruction.Parse)
+        .Aggregate(sub, (s, instruction) => s.RunInstruction(instruction))
+        .Position.ProductOfParts().ToString();
 
-internal class Sub
-{
-    private Vec2 _pos = Vec2.Z;
 }

@@ -3,3 +3,4 @@
 obj/
 bin/
 target/
+*.DotSettings.user
