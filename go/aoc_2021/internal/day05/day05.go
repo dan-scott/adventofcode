@@ -9,9 +9,22 @@ import (
 	"strings"
 )
 
+type grad = uint8
+
+const (
+	HORIZONTAL grad = iota
+	NEGATIVE
+	VERTICAL
+	POSITIVE
+)
+
 type day05 struct {
-	lines    [][]vec2.Vec2
-	min, max vec2.Vec2
+	input []string
+}
+
+type line struct {
+	minX, minY, maxX, maxY int
+	g                      grad
 }
 
 func (d *day05) Open() {
@@ -19,106 +32,72 @@ func (d *day05) Open() {
 }
 
 func (d *day05) Close() {
-	d.lines = nil
+	d.input = nil
 }
 
 func (d *day05) Part1() string {
-	plot := make([][]int, 1000)
-	for i := d.min.X; i <= d.max.X; i++ {
-		plot[i] = make([]int, 1000)
-	}
+	lines := d.getLines()
+	plot := make([]int, 1000000)
 	ct := 0
-	for _, l := range d.lines {
-		if l[0].X == l[1].X {
-			for y := minY(l); y <= maxY(l); y++ {
-				plot[l[0].X][y]++
-
-				if plot[l[0].X][y] == 2 {
-					ct++
-				}
+	inc := func(id int) {
+		plot[id]++
+		if plot[id] == 2 {
+			ct++
+		}
+	}
+	for _, l := range lines {
+		if l.g == HORIZONTAL {
+			min := l.minX + l.minY*1000
+			max := l.maxY*1000 + l.maxX
+			for idx := min; idx <= max; idx++ {
+				inc(idx)
 			}
-		} else if l[0].Y == l[1].Y {
-			for x := minX(l); x <= maxX(l); x++ {
-				plot[x][l[0].Y]++
-				if plot[x][l[0].Y] == 2 {
-					ct++
-				}
+		} else if l.g == VERTICAL {
+			max := l.maxY*1000 + l.minX
+			for idx := l.minY*1000 + l.minX; idx <= max; idx += 1000 {
+				inc(idx)
 			}
 		}
 	}
 	return fmt.Sprint(ct)
 }
 
-func maxY(line []vec2.Vec2) int {
-	if line[0].Y > line[1].Y {
-		return line[0].Y
-	}
-	return line[1].Y
-}
-
-func minY(line []vec2.Vec2) int {
-	if line[0].Y < line[1].Y {
-		return line[0].Y
-	}
-	return line[1].Y
-}
-
-func maxX(line []vec2.Vec2) int {
-	if line[0].X > line[1].X {
-		return line[0].X
-	}
-	return line[1].X
-}
-
-func minX(line []vec2.Vec2) int {
-	if line[0].X < line[1].X {
-		return line[0].X
-	}
-	return line[1].X
-}
-
-func gradient(line []vec2.Vec2) int {
-	return (line[1].X - line[0].X) / (line[1].Y - line[0].Y)
+func grd(a, b vec2.Vec2) int {
+	return (a.X - b.X) / (a.Y - b.Y)
 }
 
 func (d *day05) Part2() string {
-	plot := make([][]int, 1000)
-	for i := d.min.X; i <= d.max.X; i++ {
-		plot[i] = make([]int, 1000)
-	}
+	lines := d.getLines()
+	plot := make([]int, 1000000)
 	ct := 0
-	for _, l := range d.lines {
-		if l[0].X == l[1].X {
-			for y := minY(l); y <= maxY(l); y++ {
-				plot[l[0].X][y]++
-				if plot[l[0].X][y] == 2 {
-					ct++
-				}
+	inc := func(id int) {
+		plot[id]++
+		if plot[id] == 2 {
+			ct++
+		}
+	}
+	for _, l := range lines {
+		switch l.g {
+		case HORIZONTAL:
+			y := l.minY * 1000
+			for x := l.minX; x <= l.maxX; x++ {
+				inc(x + y)
 			}
-		} else if l[0].Y == l[1].Y {
-			for x := minX(l); x <= maxX(l); x++ {
-				plot[x][l[0].Y]++
-				if plot[x][l[0].Y] == 2 {
-					ct++
-				}
+		case VERTICAL:
+			for y := l.minY * 1000; y <= l.maxY*1000; y += 1000 {
+				inc(l.minX + y)
 			}
-		} else if gradient(l) > 0 {
-			x := minX(l)
-			for y := minY(l); y <= maxY(l); y++ {
-				plot[x][y]++
-				if plot[x][y] == 2 {
-					ct++
-				}
+		case POSITIVE:
+			x := l.minX
+			for y := l.minY * 1000; y <= l.maxY*1000; y += 1000 {
+				inc(x + y)
 				x++
 			}
-		} else {
-			x := minX(l)
-			for y := maxY(l); y >= minY(l); y-- {
-				plot[x][y]++
-				if plot[x][y] == 2 {
-					ct++
-				}
-				x++
+		case NEGATIVE:
+			x := l.maxX
+			for y := l.minY * 1000; y <= l.maxY*1000; y += 1000 {
+				inc(x + y)
+				x--
 			}
 		}
 	}
@@ -126,40 +105,7 @@ func (d *day05) Part2() string {
 }
 
 func (d *day05) loadLines(input []string) {
-	lines := make([][]vec2.Vec2, len(input))
-	min := vec2.Of(1000, 1000)
-	max := vec2.Of(-1, -1)
-	for i, l := range input {
-		pts := strings.Split(l, " -> ")
-		lines[i] = []vec2.Vec2{parseVec(pts[0]), parseVec(pts[1])}
-		if lines[i][0].X < min.X {
-			min.X = lines[i][0].X
-		}
-		if lines[i][1].X < min.X {
-			min.X = lines[i][1].X
-		}
-		if lines[i][0].X > max.X {
-			max.X = lines[i][0].X
-		}
-		if lines[i][1].X > max.X {
-			max.X = lines[i][1].X
-		}
-		if lines[i][0].Y < min.Y {
-			min.Y = lines[i][0].Y
-		}
-		if lines[i][1].Y < min.Y {
-			min.Y = lines[i][1].Y
-		}
-		if lines[i][0].Y > max.Y {
-			max.Y = lines[i][0].Y
-		}
-		if lines[i][1].Y > max.Y {
-			max.Y = lines[i][1].Y
-		}
-	}
-	d.min = min
-	d.max = max
-	d.lines = lines
+	d.input = input
 }
 
 func parseVec(s string) vec2.Vec2 {
@@ -167,6 +113,37 @@ func parseVec(s string) vec2.Vec2 {
 	x, _ := strconv.ParseInt(ns[0], 10, 64)
 	y, _ := strconv.ParseInt(ns[1], 10, 64)
 	return vec2.OfInt64(x, y)
+}
+
+func (d *day05) getLines() []line {
+	lines := make([]line, len(d.input))
+	for i, l := range d.input {
+		a, b := parseLine(l)
+		minX, maxX, minY, maxY := a.X, b.X, a.Y, b.Y
+		if minX > maxX {
+			minX, maxX = maxX, minX
+		}
+		if minY > maxY {
+			minY, maxY = maxY, minY
+		}
+		ln := line{
+			minX: minX,
+			minY: minY,
+			maxX: maxX,
+			maxY: maxY,
+			g:    HORIZONTAL,
+		}
+		if a.Y != b.Y {
+			ln.g = grad(grd(a, b) + 2)
+		}
+		lines[i] = ln
+	}
+	return lines
+}
+
+func parseLine(l string) (vec2.Vec2, vec2.Vec2) {
+	p := strings.Split(l, " -> ")
+	return parseVec(p[0]), parseVec(p[1])
 }
 
 func New() runner.Day {

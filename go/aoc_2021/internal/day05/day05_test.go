@@ -20,6 +20,15 @@ func TestDay05_Part2(t *testing.T) {
 	}
 }
 
+func BenchmarkDay05_loadLines(b *testing.B) {
+	d := &day05{}
+	d.Open()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		d.getLines()
+	}
+}
+
 func BenchmarkDay05_Part1(b *testing.B) {
 	d := New()
 	d.Open()
