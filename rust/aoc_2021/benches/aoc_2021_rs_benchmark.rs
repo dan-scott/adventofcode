@@ -6,7 +6,8 @@ macro_rules! benchmark {
         paste::item! {
             fn [< benchmark_ $day _ $part >](c: &mut Criterion) {
                 let d = aoc_2021::$day::new();
-                c.bench_function(stringify!($day, $part), |b| b.iter(|| d.$part()));
+                let lines = aoc_2021::inputs::lines(2021, d.number());
+                c.bench_function(stringify!($day, $part), |b| b.iter(|| d.$part(&lines)));
             }
         }
     };

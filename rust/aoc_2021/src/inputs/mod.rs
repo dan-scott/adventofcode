@@ -1,4 +1,7 @@
-use std::{fs::File, io::BufReader};
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
 trait InputParser {}
 
@@ -10,6 +13,10 @@ pub fn open_file(year: u16, day: u8) -> BufReader<File> {
     let file = format!("{}/inputs/{}/{}.txt", root_path, year, day);
     let read = File::open(file).expect("Failed to open the thing");
     return BufReader::new(read);
+}
+
+pub fn lines(year: u16, day: u8) -> Vec<String> {
+    open_file(year, day).lines().map(|l| l.unwrap()).collect()
 }
 
 #[cfg(test)]

@@ -1,6 +1,6 @@
-use std::io::BufRead;
+use std::time::{Duration, Instant};
 
-use crate::{inputs, runner};
+use crate::runner;
 
 struct Day01 {}
 
@@ -9,27 +9,20 @@ impl runner::Day for Day01 {
         1
     }
 
-    fn part_1(&self) -> Box<dyn std::fmt::Display> {
-        let readings: Vec<usize> = inputs::open_file(2021, 1)
-            .lines()
-            .map(|l| l.unwrap().parse().unwrap())
-            .collect();
-        let mut total = 0;
-        for i in 0..readings.len() - 1 {
-            if readings[i] < readings[i + 1] {
-                total += 1;
-            }
-        }
-        Box::new(total)
+    fn part_1(&self, lines: &Vec<String>) -> (Duration, String) {
+        let s = Instant::now();
+        let readings: Vec<usize> = lines.iter().map(|l| l.parse().unwrap()).collect();
+        let solution = readings.windows(2).filter(|w| w[0] < w[1]).count();
+        let e = s.elapsed();
+        (e, solution.to_string())
     }
 
-    fn part_2(&self) -> Box<dyn std::fmt::Display> {
-        let readings: Vec<usize> = inputs::open_file(2021, 1)
-            .lines()
-            .map(|l| l.unwrap().parse().unwrap())
-            .collect();
-        let total = readings.windows(4).filter(|w| w[0] < w[3]).count();
-        Box::new(total)
+    fn part_2(&self, lines: &Vec<String>) -> (Duration, String) {
+        let s = Instant::now();
+        let readings: Vec<usize> = lines.iter().map(|l| l.parse().unwrap()).collect();
+        let solution = readings.windows(4).filter(|w| w[0] < w[3]).count();
+        let e = s.elapsed();
+        (e, solution.to_string())
     }
 }
 
@@ -45,15 +38,17 @@ mod test {
 
     #[test]
     fn day_01_part_01() {
+        let lines = crate::inputs::lines(2021, 1);
         let expected = 1696;
-        let answer = new().part_1();
-        assert_eq!(answer.to_string(), expected.to_string())
+        let (_, answer) = new().part_1(&lines);
+        assert_eq!(answer, expected.to_string())
     }
 
     #[test]
     fn day_01_part_02() {
         let expected = 1737;
-        let answer = new().part_2();
-        assert_eq!(answer.to_string(), expected.to_string())
+        let lines = crate::inputs::lines(2021, 1);
+        let (_, answer) = new().part_2(&lines);
+        assert_eq!(answer, expected.to_string())
     }
 }
