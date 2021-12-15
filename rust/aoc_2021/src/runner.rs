@@ -1,5 +1,5 @@
 use crate::inputs;
-use std::time::{Duration, Instant};
+use std::time::Duration;
 
 pub trait Day {
     fn number(&self) -> u8;
@@ -7,10 +7,8 @@ pub trait Day {
     fn part_2(&self, lines: &Vec<String>) -> (Duration, String);
 }
 
-pub fn run_days(days: Vec<Box<impl Day>>) {
-    let runner_start = Instant::now();
-
-    days.iter().for_each(|day| {
+pub fn run_days(days: Vec<Box<dyn Day>>) {
+    let d = days.iter().fold(Duration::default(), |t, day| {
         let lines = inputs::lines(2021, day.number());
         println!("Day {}", day.number());
         print!("\tSolving part one...");
@@ -20,7 +18,9 @@ pub fn run_days(days: Vec<Box<impl Day>>) {
         print!("\tSolving part two...");
         let p2 = day.part_2(&lines);
         println!(" done in {:?}\t{}\n", p2.0, p2.1);
+
+        t + p1.0 + p2.0
     });
 
-    println!("Finished in {:?}", runner_start.elapsed());
+    println!("Finished in {:?}", d);
 }

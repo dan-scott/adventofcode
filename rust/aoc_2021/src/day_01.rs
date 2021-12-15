@@ -2,7 +2,11 @@ use std::time::{Duration, Instant};
 
 use crate::runner;
 
-struct Day01 {}
+pub struct Day01 {}
+
+pub fn new() -> Day01 {
+    Day01 {}
+}
 
 impl runner::Day for Day01 {
     fn number(&self) -> u8 {
@@ -24,10 +28,6 @@ impl runner::Day for Day01 {
         let e = s.elapsed();
         (e, solution.to_string())
     }
-}
-
-pub fn new() -> Box<impl runner::Day> {
-    return Box::new(Day01 {});
 }
 
 #[cfg(test)]
