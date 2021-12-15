@@ -1,9 +1,5 @@
-mod day_01;
-mod inputs;
-mod runner;
-
 fn main() {
-    let days = vec![day_01::new()];
+    let days = vec![aoc_2021::day_01::new()];
 
-    runner::run_days(days);
+    aoc_2021::runner::run_days(days);
 }

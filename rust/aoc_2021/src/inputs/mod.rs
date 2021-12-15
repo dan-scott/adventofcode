@@ -1,29 +1,25 @@
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-    path::Path,
-};
+use std::{fs::File, io::BufReader};
 
 trait InputParser {}
 
-fn open_file(year: u16, day: u8) -> BufReader<File> {
+pub fn open_file(year: u16, day: u8) -> BufReader<File> {
     let root_path = match std::env::var_os("ADVENT_OF_CODE_ROOT") {
         Some(v) => v.into_string().unwrap(),
         None => "../../".to_string(),
     };
     let file = format!("{}/inputs/{}/{}.txt", root_path, year, day);
-    let input_file = Path::new(file.as_str());
-    let read = File::open(input_file).expect("Failed to open the thing");
+    let read = File::open(file).expect("Failed to open the thing");
     return BufReader::new(read);
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::BufRead;
 
     #[test]
-    fn it_loads_lines() {
-        let loaded_lines = lines(2021, 1);
-        assert_ne!(loaded_lines.len(), 0)
+    fn it_opens_a_file() {
+        let strs: Vec<String> = open_file(2021, 1).lines().map(|l| l.unwrap()).collect();
+        assert_ne!(strs.len(), 0)
     }
 }
