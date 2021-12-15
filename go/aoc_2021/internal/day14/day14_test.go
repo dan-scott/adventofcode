@@ -2,7 +2,7 @@ package day14
 
 import "testing"
 
-func TestDay01_Part1(t *testing.T) {
+func TestDay14_Part1(t *testing.T) {
 	d := &day14{}
 	d.Open()
 	const expected = "2947"
@@ -13,7 +13,7 @@ func TestDay01_Part1(t *testing.T) {
 	d.Close()
 }
 
-func TestDay01_Part2(t *testing.T) {
+func TestDay14_Part2(t *testing.T) {
 	d := &day14{}
 	d.Open()
 	const expected = "3232426226464"
@@ -24,7 +24,7 @@ func TestDay01_Part2(t *testing.T) {
 	d.Close()
 }
 
-func BenchmarkDay01_Part1(b *testing.B) {
+func BenchmarkDay14_Part1(b *testing.B) {
 	d := New()
 	d.Open()
 	b.ResetTimer()
@@ -33,7 +33,7 @@ func BenchmarkDay01_Part1(b *testing.B) {
 	}
 }
 
-func BenchmarkDay01_Part2(b *testing.B) {
+func BenchmarkDay14_Part2(b *testing.B) {
 	d := New()
 	d.Open()
 	b.ResetTimer()
