@@ -32,9 +32,9 @@ func (d *day03) Part1() string {
 	for i := 0; i < bitCt; i++ {
 		val := 1 << (bitCt - i - 1)
 		if zct[i] >= half {
-			gamma += val
+			gamma |= val
 		} else {
-			epsilon += val
+			epsilon |= val
 		}
 	}
 
