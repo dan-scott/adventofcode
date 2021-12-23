@@ -49,6 +49,21 @@ func (vc vec3) setCmp(i, val int) vec3 {
 	panic("invalid component")
 }
 
+func (vc vec3) maxVec3(o vec3) vec3 {
+	return v(
+		int(math.Max(float64(vc.x), float64(o.x))),
+		int(math.Max(float64(vc.y), float64(o.y))),
+		int(math.Max(float64(vc.z), float64(o.z))),
+	)
+}
+func (vc vec3) minVec3(o vec3) vec3 {
+	return v(
+		int(math.Min(float64(vc.x), float64(o.x))),
+		int(math.Min(float64(vc.y), float64(o.y))),
+		int(math.Min(float64(vc.z), float64(o.z))),
+	)
+}
+
 func (vc vec3) abs() vec3 {
 	return vec3{
 		x: int(math.Abs(float64(vc.x))),
