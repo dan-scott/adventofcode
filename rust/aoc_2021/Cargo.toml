@@ -6,11 +6,11 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+aoc_base = { path = "../aoc_base" }
 
 [dev-dependencies]
 criterion = "0.3"
 paste = "0.1.18"
-
 
 [[bench]]
 name = "aoc_2021_rs_benchmark"

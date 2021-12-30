@@ -1,6 +1,6 @@
 use std::time::{Duration, Instant};
 
-use crate::runner;
+use aoc_base::runner;
 
 pub struct Day01 {}
 
@@ -32,13 +32,13 @@ impl runner::Day for Day01 {
 
 #[cfg(test)]
 mod test {
-    use crate::runner::Day;
+    use aoc_base::runner::Day;
 
     use super::*;
 
     #[test]
     fn day_01_part_01() {
-        let lines = crate::inputs::lines(2021, 1);
+        let lines = aoc_base::inputs::lines(2021, 1);
         let expected = 1696;
         let (_, answer) = new().part_1(&lines);
         assert_eq!(answer, expected.to_string())
@@ -47,7 +47,7 @@ mod test {
     #[test]
     fn day_01_part_02() {
         let expected = 1737;
-        let lines = crate::inputs::lines(2021, 1);
+        let lines = aoc_base::inputs::lines(2021, 1);
         let (_, answer) = new().part_2(&lines);
         assert_eq!(answer, expected.to_string())
     }

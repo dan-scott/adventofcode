@@ -6,7 +6,7 @@ pub fn new() -> Day03 {
     Day03 {}
 }
 
-impl crate::runner::Day for Day03 {
+impl aoc_base::runner::Day for Day03 {
     fn number(&self) -> u8 {
         3
     }

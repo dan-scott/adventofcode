@@ -1,4 +1,4 @@
-use aoc_2021::runner::Day;
+use aoc_base::runner::Day;
 use criterion::{criterion_group, criterion_main, Criterion};
 
 macro_rules! benchmark {
@@ -6,7 +6,7 @@ macro_rules! benchmark {
         paste::item! {
             fn [< benchmark_ $day _ $part >](c: &mut Criterion) {
                 let d = aoc_2021::$day::new();
-                let lines = aoc_2021::inputs::lines(2021, d.number());
+                let lines = aoc_base::inputs::lines(2021, d.number());
                 c.bench_function(stringify!($day, $part), |b| b.iter(|| d.$part(&lines)));
             }
         }

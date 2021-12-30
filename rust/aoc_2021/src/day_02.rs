@@ -1,6 +1,6 @@
 use std::{str::FromStr, time::Instant};
 
-use crate::runner;
+use aoc_base::runner;
 
 enum Instruction {
     Forward(usize),

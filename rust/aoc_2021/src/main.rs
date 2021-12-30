@@ -1,11 +1,11 @@
-use aoc_2021::runner::Day;
+use aoc_base::runner;
 
 fn main() {
-    let days: Vec<Box<dyn Day>> = vec![
+    let days: Vec<Box<dyn runner::Day>> = vec![
         Box::new(aoc_2021::day_01::new()),
         Box::new(aoc_2021::day_02::new()),
         Box::new(aoc_2021::day_03::new()),
     ];
 
-    aoc_2021::runner::run_days(days);
+    runner::run_days(days);
 }
