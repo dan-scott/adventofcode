@@ -1,10 +1,15 @@
 package vec2
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type Vec2 struct {
 	X, Y int
 }
+
+var Z = Of(0, 0)
 
 func (v Vec2) String() string {
 	return fmt.Sprintf("(%d %d)", v.X, v.Y)
@@ -28,4 +33,8 @@ func (v Vec2) Add(o Vec2) Vec2 {
 
 func (v Vec2) Index(run int) int {
 	return v.Y*run + v.X
+}
+
+func (v Vec2) MhdTo(o Vec2) int {
+	return int(math.Abs(float64(v.X-o.X)) + math.Abs(float64(v.Y-o.Y)))
 }
