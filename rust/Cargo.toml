@@ -2,5 +2,6 @@
 
 members = [
     "aoc_base",
+    "aoc_2020",
     "aoc_2021"
 ]

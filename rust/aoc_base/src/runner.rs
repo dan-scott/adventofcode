@@ -1,26 +1,28 @@
-use crate::inputs;
+use crate::{inputs, Day};
+use anyhow::{Context, Ok, Result};
 use std::time::Duration;
 
-pub trait Day {
-    fn number(&self) -> u8;
-    fn part_1(&self, lines: &Vec<String>) -> (Duration, String);
-    fn part_2(&self, lines: &Vec<String>) -> (Duration, String);
-}
-
-pub fn run_days(days: Vec<Box<dyn Day>>) {
-    let d = days.iter().fold(Duration::default(), |t, day| {
-        let lines = inputs::lines(2021, day.number());
+pub fn run_days(days: Vec<Box<dyn Day>>) -> Result<()> {
+    let mut total_duration = Duration::default();
+    for day in days {
+        let lines = inputs::lines(day.year(), day.number());
         println!("Day {}", day.number());
         print!("\tSolving part one...");
-        let p1 = day.part_1(&lines);
-        println!(" done in {:?}\t{}", p1.0, p1.1);
+        let (p1_time, p1_solution) = day
+            .part_1(&lines)
+            .context(format!("Failed on day {} part 1", day.number()))?;
+        println!(" done in {:?}\t{}", p1_time, p1_solution);
 
         print!("\tSolving part two...");
-        let p2 = day.part_2(&lines);
-        println!(" done in {:?}\t{}\n", p2.0, p2.1);
+        let (p2_time, p2_solution) = day
+            .part_2(&lines)
+            .context(format!("Failed on day {} part 2", day.number()))?;
+        println!(" done in {:?}\t{}\n", p2_time, p2_solution);
 
-        t + p1.0 + p2.0
-    });
+        total_duration += p1_time + p2_time;
+    }
 
-    println!("Finished in {:?}", d);
+    println!("Finished in {:?}", total_duration);
+
+    Ok(())
 }

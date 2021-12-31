@@ -1,6 +1,5 @@
+use aoc_base::Day;
 use std::{str::FromStr, time::Instant};
-
-use aoc_base::runner;
 
 enum Instruction {
     Forward(usize),
@@ -26,12 +25,16 @@ impl FromStr for Instruction {
 
 pub struct Day02 {}
 
-impl runner::Day for Day02 {
+impl Day for Day02 {
+    fn year(&self) -> u16 {
+        2021
+    }
+
     fn number(&self) -> u8 {
         2
     }
 
-    fn part_1(&self, lines: &Vec<String>) -> (std::time::Duration, String) {
+    fn part_1(&self, lines: &Vec<String>) -> anyhow::Result<(std::time::Duration, String)> {
         let s = Instant::now();
 
         let mut h = 0;
@@ -47,10 +50,10 @@ impl runner::Day for Day02 {
         }
         let e = s.elapsed();
         let a = (h * v).to_string();
-        (e, a)
+        anyhow::Ok((e, a))
     }
 
-    fn part_2(&self, lines: &Vec<String>) -> (std::time::Duration, String) {
+    fn part_2(&self, lines: &Vec<String>) -> anyhow::Result<(std::time::Duration, String)> {
         let s = Instant::now();
 
         let mut h = 0;
@@ -70,7 +73,7 @@ impl runner::Day for Day02 {
         }
         let e = s.elapsed();
         let a = (h * v).to_string();
-        (e, a)
+        anyhow::Ok((e, a))
     }
 }
 

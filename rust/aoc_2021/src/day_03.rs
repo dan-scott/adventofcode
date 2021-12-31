@@ -1,3 +1,5 @@
+use anyhow::{Ok, Result};
+use aoc_base::Day;
 use std::time::Instant;
 
 pub struct Day03 {}
@@ -6,12 +8,16 @@ pub fn new() -> Day03 {
     Day03 {}
 }
 
-impl aoc_base::runner::Day for Day03 {
+impl Day for Day03 {
+    fn year(&self) -> u16 {
+        2021
+    }
+
     fn number(&self) -> u8 {
         3
     }
 
-    fn part_1(&self, lines: &Vec<String>) -> (std::time::Duration, String) {
+    fn part_1(&self, lines: &Vec<String>) -> Result<(std::time::Duration, String)> {
         let s = Instant::now();
         let zero_count = count_zeros(lines);
         let mut gamma = 0;
@@ -28,10 +34,10 @@ impl aoc_base::runner::Day for Day03 {
         }
         let sln = epsilon * gamma;
         let e = s.elapsed();
-        (e, sln.to_string())
+        Ok((e, sln.to_string()))
     }
 
-    fn part_2(&self, lines: &Vec<String>) -> (std::time::Duration, String) {
+    fn part_2(&self, lines: &Vec<String>) -> Result<(std::time::Duration, String)> {
         let s = Instant::now();
         let mut o2_list = lines.to_vec();
         let mut co2_list = lines.to_vec();
@@ -58,7 +64,7 @@ impl aoc_base::runner::Day for Day03 {
 
         let sln = (o2 * co2).to_string();
         let e = s.elapsed();
-        (e, sln)
+        Ok((e, sln))
     }
 }
 
