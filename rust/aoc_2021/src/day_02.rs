@@ -11,10 +11,10 @@ impl FromStr for Instruction {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut pts = s.split(" ");
+        let mut pts = s.split(' ');
         let i = pts.next().unwrap();
         let v: usize = pts.next().unwrap().parse().unwrap();
-        match i.chars().nth(0) {
+        match i.chars().next() {
             Some('f') => Ok(Instruction::Forward(v)),
             Some('d') => Ok(Instruction::Down(v)),
             Some('u') => Ok(Instruction::Up(v)),
@@ -34,7 +34,7 @@ impl Day for Day02 {
         2
     }
 
-    fn part_1(&self, lines: &Vec<String>) -> anyhow::Result<(std::time::Duration, String)> {
+    fn part_1(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
         let s = Instant::now();
 
         let mut h = 0;
@@ -53,7 +53,7 @@ impl Day for Day02 {
         anyhow::Ok((e, a))
     }
 
-    fn part_2(&self, lines: &Vec<String>) -> anyhow::Result<(std::time::Duration, String)> {
+    fn part_2(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
         let s = Instant::now();
 
         let mut h = 0;

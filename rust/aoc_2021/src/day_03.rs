@@ -17,7 +17,7 @@ impl Day for Day03 {
         3
     }
 
-    fn part_1(&self, lines: &Vec<String>) -> Result<(std::time::Duration, String)> {
+    fn part_1(&self, lines: &[String]) -> Result<(std::time::Duration, String)> {
         let s = Instant::now();
         let zero_count = count_zeros(lines);
         let mut gamma = 0;
@@ -37,7 +37,7 @@ impl Day for Day03 {
         Ok((e, sln.to_string()))
     }
 
-    fn part_2(&self, lines: &Vec<String>) -> Result<(std::time::Duration, String)> {
+    fn part_2(&self, lines: &[String]) -> Result<(std::time::Duration, String)> {
         let s = Instant::now();
         let mut o2_list = lines.to_vec();
         let mut co2_list = lines.to_vec();
@@ -68,7 +68,7 @@ impl Day for Day03 {
     }
 }
 
-fn count_zeros(lines: &Vec<String>) -> [usize; 12] {
+fn count_zeros(lines: &[String]) -> [usize; 12] {
     let mut zero_count: [usize; 12] = [0; 12];
     for line in lines {
         line.bytes()

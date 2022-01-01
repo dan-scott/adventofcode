@@ -17,7 +17,7 @@ impl Day for Day01 {
         1
     }
 
-    fn part_1(&self, lines: &Vec<String>) -> Result<(Duration, String)> {
+    fn part_1(&self, lines: &[String]) -> Result<(Duration, String)> {
         let s = Instant::now();
         let readings: Vec<usize> = lines.iter().map(|l| l.parse().unwrap()).collect();
         let solution = readings.windows(2).filter(|w| w[0] < w[1]).count();
@@ -25,7 +25,7 @@ impl Day for Day01 {
         Ok((e, solution.to_string()))
     }
 
-    fn part_2(&self, lines: &Vec<String>) -> Result<(Duration, String)> {
+    fn part_2(&self, lines: &[String]) -> Result<(Duration, String)> {
         let s = Instant::now();
         let readings: Vec<usize> = lines.iter().map(|l| l.parse().unwrap()).collect();
         let solution = readings.windows(4).filter(|w| w[0] < w[3]).count();

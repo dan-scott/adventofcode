@@ -6,6 +6,7 @@ pub fn run_days(days: Vec<Box<dyn Day>>) -> Result<()> {
     let mut total_duration = Duration::default();
     for day in days {
         let lines = inputs::lines(day.year(), day.number());
+
         println!("Day {}", day.number());
         print!("\tSolving part one...");
         let (p1_time, p1_solution) = day

@@ -7,3 +7,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.52"
+aoc_base = { path = "../aoc_base" }
+itertools = "0.10.3"
+peg = "0.7.0"
+thiserror = "1.0.30"

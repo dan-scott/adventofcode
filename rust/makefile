@@ -1,3 +1,6 @@
+2020:
+	cargo run --bin aoc_2020 --release
+
 2021:
 	cargo run --bin aoc_2021 --release
 
