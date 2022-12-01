@@ -1,0 +1,16 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "JS Advent of Code solutions",
+  "main": "src/index.mjs",
+  "scripts": {
+    "start": "node src/index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "prettier": "^2.8.0"
+  }
+}
