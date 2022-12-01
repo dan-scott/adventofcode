@@ -1,10 +1,7 @@
-import { getInput } from "../common/inputs.mjs";
-
-async function getCalCounts() {
-  const input = getInput(2022, 1);
+function getCalCounts(input) {
   const counts = [];
   let calCt = 0;
-  for (const line of (await input).split("\n")) {
+  for (const line of input.split("\n")) {
     if (line.length === 0) {
       counts.push(calCt);
       calCt = 0;
@@ -16,13 +13,13 @@ async function getCalCounts() {
   return counts;
 }
 
-export async function part1() {
-  const counts = await getCalCounts();
+export async function part1(input) {
+  const counts = getCalCounts(input);
   return Math.max(...counts);
 }
 
-export async function part2() {
-  const counts = await getCalCounts();
+export async function part2(input) {
+  const counts = getCalCounts(input);
   counts.sort((a, b) => b - a);
   return counts[0] + counts[1] + counts[2];
 }
