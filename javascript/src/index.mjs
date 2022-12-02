@@ -9,6 +9,9 @@ async function runYear(year) {
   const path = join(__dirname, `aoc_${year}`);
   const yearDir = await opendir(path);
   for await (const entry of yearDir) {
+    if (entry.name.includes("test")) {
+      continue;
+    }
     const { part1, part2, skip } = await import(join(path, entry.name));
     if (skip) {
       console.log(`Skipping ${entry.name}!`);
