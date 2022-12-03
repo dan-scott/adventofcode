@@ -1,0 +1,18 @@
+//
+// Created by Dan Scott on 3/12/22.
+//
+
+#pragma once
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "defines.h"
+
+#define PART_FN(year, day, part) void PART(year, day, part)(FILE* input)
+
+#define DAY(year, day) PART_FN(year, day, 1); PART_FN(year, day, 2);
+
+DAY(2022, 1)
+
+#undef DAY

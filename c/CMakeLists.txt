@@ -9,4 +9,4 @@ include_directories(src)
 
 add_executable(c
         src/defines.h
-        src/main.c)
+        src/main.c src/aoc_2022/aoc_2022.h src/aoc_2022/day_01.c)
