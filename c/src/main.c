@@ -14,7 +14,8 @@
                             PART(year, day, 1)(input);          \
                             rewind(input);                      \
                             PART(year, day, 2)(input);          \
-                            fclose(input);
+                            fclose(input);                      \
+                            printf("--------------------------------\n");
 
 void get_input_file(FILE **file, uint16_t year, uint8_t day) {
     int32_t len = strlen(INPUT_DIR) + 12;
@@ -32,7 +33,8 @@ void get_input_file(FILE **file, uint16_t year, uint8_t day) {
 int main() {
     FILE *input;
 
-    RUN_DAY(2022,1)
+    RUN_DAY(2022, 1)
+    RUN_DAY(2022, 2)
 
     return EXIT_SUCCESS;
 }

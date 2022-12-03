@@ -14,5 +14,6 @@
 #define DAY(year, day) PART_FN(year, day, 1); PART_FN(year, day, 2);
 
 DAY(2022, 1)
+DAY(2022, 2)
 
 #undef DAY
