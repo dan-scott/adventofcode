@@ -13,12 +13,12 @@ function getCalCounts(input) {
   return counts;
 }
 
-export async function part1(input) {
+export function part1(input) {
   const counts = getCalCounts(input);
   return Math.max(...counts);
 }
 
-export async function part2(input) {
+export function part2(input) {
   const counts = getCalCounts(input);
   counts.sort((a, b) => b - a);
   return counts[0] + counts[1] + counts[2];

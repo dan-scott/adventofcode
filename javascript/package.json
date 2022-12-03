@@ -5,11 +5,13 @@
   "main": "src/index.mjs",
   "scripts": {
     "start": "node src/index.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "bench": "node src/benches.mjs"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.8.0"
