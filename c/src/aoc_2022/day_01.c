@@ -9,24 +9,21 @@ PART_FN(2022, 1, 1) {
     uint32_t max = 0;
     uint32_t current = 0;
     uint32_t current_sum = 0;
-    bool prev_nl = false;
-    while ((ch = fgetc(input)) != EOF) {
-        if (ch == '\n') {
-            if (prev_nl) {
+    while (*input != '\0') {
+        if (*input == '\n') {
+            current_sum += current;
+            current = 0;
+            if (*(input + 1) == '\n') {
                 if (current_sum > max) {
                     max = current_sum;
                 }
-                current = 0;
                 current_sum = 0;
-            } else {
-                prev_nl = true;
-                current_sum += current;
-                current = 0;
+                input++;
             }
         } else {
-            prev_nl = false;
-            current = current * 10 + (ch - '0');
+            current = current * 10 + (*input - '0');
         }
+        input++;
     }
     printf("2022 Day 1 part 1: %u\n", max);
 }
@@ -38,10 +35,11 @@ PART_FN(2022, 1, 2) {
     uint32_t max_2 = 0;
     uint32_t current = 0;
     uint32_t current_sum = 0;
-    bool prev_nl = false;
-    while ((ch = fgetc(input)) != EOF) {
-        if (ch == '\n') {
-            if (prev_nl) {
+    while (*input != '\0') {
+        if (*input == '\n') {
+            current_sum += current;
+            current = 0;
+            if (*(input + 1) == '\n') {
                 if (current_sum > max_0) {
                     max_2 = max_1;
                     max_1 = max_0;
@@ -54,15 +52,11 @@ PART_FN(2022, 1, 2) {
                 }
                 current = 0;
                 current_sum = 0;
-            } else {
-                prev_nl = true;
-                current_sum += current;
-                current = 0;
             }
         } else {
-            prev_nl = false;
-            current = current * 10 + (ch - '0');
+            current = current * 10 + (*input - '0');
         }
+        input++;
     }
     printf("2022 Day 1 part 2: %u\n", max_0 + max_1 + max_2);
 }

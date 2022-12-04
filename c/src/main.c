@@ -10,28 +10,47 @@
 #include "defines.h"
 #include "aoc_2022/aoc_2022.h"
 
-#define RUN_DAY(year, day)  get_input_file(&input, year, day);  \
+#define RUN_DAY(year, day)  input = get_input_file(year, day);  \
                             PART(year, day, 1)(input);          \
-                            rewind(input);                      \
                             PART(year, day, 2)(input);          \
-                            fclose(input);                      \
+                            free(input);                        \
                             printf("--------------------------------\n");
 
-void get_input_file(FILE **file, uint16_t year, uint8_t day) {
-    int32_t len = strlen(INPUT_DIR) + 12;
-    char *path = malloc(len);
+ char* get_input_file(uint16_t year, uint8_t day) {
+    size_t path_length = strlen(INPUT_DIR) + 12;
+    char *path = malloc(path_length);
     sprintf(path, "%s%u/%u.txt", INPUT_DIR, year, day);
-    *file = fopen(path, "rb");
+    FILE *file;
+    file = fopen(path, "rb");
     if (file == NULL) {
         fprintf(stderr, "Failed to open input file %s", path);
         exit(EXIT_FAILURE);
     }
 
+    fseek(file, 0L, SEEK_END);
+    size_t file_size = ftell(file);
+    rewind(file);
+    char* buffer = (char*)malloc(file_size + 1);
+    if (buffer == NULL) {
+        fprintf(stderr, "Not enough memory to read %s", path);
+        exit(EXIT_FAILURE);
+    }
+
+    size_t bytes_read = fread(buffer, sizeof (char), file_size, file);
+    if (bytes_read < file_size) {
+        fprintf(stderr, "Could not read file %s", path);
+        exit(EXIT_FAILURE);
+    }
+
+    buffer[bytes_read] = '\0';
+
+    fclose(file);
+    return buffer;
 }
 
 
 int main() {
-    FILE *input;
+    char* input;
 
     RUN_DAY(2022, 1)
     RUN_DAY(2022, 2)

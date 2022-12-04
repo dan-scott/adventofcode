@@ -25,32 +25,24 @@ static uint8_t decode_sheet[9] = {
 
 PART_FN(2022, 2, 1) {
     uint32_t total = 0;
-    while (true) {
-        int elf_hand = fgetc(input);
-        if (elf_hand == EOF) {
-            break;
-        }
-        elf_hand -= 'A';
-        fgetc(input);
-        int my_hand = fgetc(input) - 'X';
+    while (*input != '\0') {
+        int elf_hand = *input - 'A';
+        input += 2;
+        int my_hand = *input - 'X';
         total += score_sheet[3 * elf_hand + my_hand];
-        fgetc(input);
+        input += 2;
     }
     printf("2022 Day 2 part 1: %u\n", total);
 }
 
 PART_FN(2022, 2, 2) {
     uint32_t total = 0;
-    while (true) {
-        int elf_hand = fgetc(input);
-        if (elf_hand == EOF) {
-            break;
-        }
-        elf_hand -= 'A';
-        fgetc(input);
-        int my_hand = fgetc(input) - 'X';
+    while (*input != '\0') {
+        int elf_hand = *input - 'A';
+        input += 2;
+        int my_hand = *input - 'X';
         total += decode_sheet[3 * elf_hand + my_hand];
-        fgetc(input);
+        input += 2;
     }
     printf("2022 Day 2 part 2: %u\n", total);
 }

@@ -9,7 +9,7 @@
 
 #include "defines.h"
 
-#define PART_FN(year, day, part) void PART(year, day, part)(FILE* input)
+#define PART_FN(year, day, part) void PART(year, day, part)(const char* input)
 
 #define DAY(year, day) PART_FN(year, day, 1); PART_FN(year, day, 2);
 
