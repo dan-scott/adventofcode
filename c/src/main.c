@@ -54,6 +54,7 @@ int main() {
 
     RUN_DAY(2022, 1)
     RUN_DAY(2022, 2)
+    RUN_DAY(2022, 3)
 
     return EXIT_SUCCESS;
 }
