@@ -4,7 +4,7 @@
 
 #include "aoc_2022.h"
 
-PART_FN(2022, 1, 1) {
+PART_FN(1, 1) {
     int ch;
     uint32_t max = 0;
     uint32_t current = 0;
@@ -28,7 +28,7 @@ PART_FN(2022, 1, 1) {
     printf("2022 Day 1 part 1: %u\n", max);
 }
 
-PART_FN(2022, 1, 2) {
+PART_FN(1, 2) {
     char ch;
     uint32_t max_0 = 0;
     uint32_t max_1 = 0;

@@ -23,7 +23,7 @@ static uint8_t decode_sheet[9] = {
         2, 6, 7,
 };
 
-PART_FN(2022, 2, 1) {
+PART_FN(2, 1) {
     uint32_t total = 0;
     while (*input != '\0') {
         int elf_hand = *input - 'A';
@@ -35,7 +35,7 @@ PART_FN(2022, 2, 1) {
     printf("2022 Day 2 part 1: %u\n", total);
 }
 
-PART_FN(2022, 2, 2) {
+PART_FN(2, 2) {
     uint32_t total = 0;
     while (*input != '\0') {
         int elf_hand = *input - 'A';

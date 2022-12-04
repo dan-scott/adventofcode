@@ -9,12 +9,16 @@
 
 #include "defines.h"
 
-#define PART_FN(year, day, part) void PART(year, day, part)(const char* input)
+#define PART_FN(day, part) void PART(2022, day, part)(const char* input)
 
-#define DAY(year, day) PART_FN(year, day, 1); PART_FN(year, day, 2);
+#define DAY(day) PART_FN(day, 1); PART_FN(day, 2);
 
-DAY(2022, 1)
-DAY(2022, 2)
-DAY(2022, 3)
+DAY(1)
+
+DAY(2)
+
+DAY(3)
+
+DAY(4)
 
 #undef DAY

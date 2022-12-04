@@ -13,7 +13,7 @@ size_t code_to_points(int code) {
 }
 
 
-PART_FN(2022, 3, 1) {
+PART_FN(3, 1) {
     size_t points[53];
     memset(points, 0, sizeof (points));
     char buf[100];
@@ -45,7 +45,7 @@ PART_FN(2022, 3, 1) {
     printf("2022 Day 3 part 1: %zu\n", total);
 }
 
-PART_FN(2022, 3, 2) {
+PART_FN(3, 2) {
     size_t points[53];
     memset(points, 0, sizeof (points));
     char r1[100];
