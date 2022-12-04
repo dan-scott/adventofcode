@@ -1,6 +1,7 @@
 import { opendir } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { dayNumber } from "./aoc_2022/day_04.mjs";
 import { getInput } from "./common/inputs.mjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
@@ -8,26 +9,39 @@ const __dirname = fileURLToPath(new URL(".", import.meta.url));
 async function runYear(year) {
   const path = join(__dirname, `aoc_${year}`);
   const yearDir = await opendir(path);
+  const days = [];
   for await (const entry of yearDir) {
     if (entry.name.includes("test")) {
       continue;
     }
-    const { part1, part2, skip } = await import(join(path, entry.name));
-    if (skip) {
-      console.log(`Skipping ${entry.name}!`);
-      return;
+
+    const day = await import(join(path, entry.name));
+    if (!day.dayNumber) {
+      throw new Error("dayNumber not exported by", entry.name);
     }
-    const day = parseInt(entry.name.split("_")[1].split(".")[0], 10);
-    const input = await getInput(year, day);
-    if (part1) {
-      console.log(entry.name, "part 1:", part1(input));
-    } else {
-      console.log(entry.name, "part 1 not found.");
+
+    days[day.dayNumber - 1] = day;
+  }
+
+  console.log("---------------------------------------------------");
+  for (const day of days) {
+    if (!day) {
+      continue;
     }
-    if (part2) {
-      console.log(entry.name, "part 2:", part2(input));
+    if (day.skip) {
+      console.log(`Skipping Day ${day.dayNumber}`);
+      continue;
+    }
+    const input = await getInput(year, day.dayNumber);
+    if (day.part1) {
+      console.log(`Day ${day.dayNumber} part 1:`, day.part1(input));
     } else {
-      console.log(entry.name, "part 2 not found.");
+      console.log(`Day ${dayNumber} part 1 not found`);
+    }
+    if (day.part2) {
+      console.log(`Day ${day.dayNumber} part 2:`, day.part2(input));
+    } else {
+      console.log(`Day ${dayNumber} part 2 not found`);
     }
     console.log("---------------------------------------------------");
   }

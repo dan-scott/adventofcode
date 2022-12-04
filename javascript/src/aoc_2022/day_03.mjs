@@ -1,3 +1,5 @@
+export const dayNumber = 3;
+
 const chra = "a".charCodeAt(0);
 const chrA = "A".charCodeAt(0);
 

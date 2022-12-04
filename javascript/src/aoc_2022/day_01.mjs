@@ -1,3 +1,5 @@
+export const dayNumber = 1;
+
 function getCalCounts(input) {
   const counts = [];
   let calCt = 0;

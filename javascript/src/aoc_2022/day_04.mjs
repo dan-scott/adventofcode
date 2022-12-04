@@ -1,3 +1,5 @@
+export const dayNumber = 4;
+
 function elfRange(elf) {
   const [s, e] = elf.split("-");
   return [parseInt(s, 10), parseInt(e, 10)];

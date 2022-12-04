@@ -1,7 +1,8 @@
+export const dayNumber = 2;
+
 //0 = R
 //1 = P
 //2 = S
-
 const score = [
   [4, 8, 3],
   [1, 5, 9],
