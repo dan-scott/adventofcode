@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import * as day from "./day_04.mjs";
 
-test("Day 03 example", async (t) => {
+test("Day 04 example", async (t) => {
   const input = `2-4,6-8
 2-3,4-5
 5-7,7-9

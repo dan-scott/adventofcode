@@ -6,6 +6,8 @@ import { getInput } from "./common/inputs.mjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
+const allowList = [5];
+
 async function runYear(year) {
   const path = join(__dirname, `aoc_${year}`);
   const yearDir = await opendir(path);
@@ -30,6 +32,9 @@ async function runYear(year) {
     }
     if (day.skip) {
       console.log(`Skipping Day ${day.dayNumber}`);
+      continue;
+    }
+    if (allowList.length && !allowList.includes(day.dayNumber)) {
       continue;
     }
     const input = await getInput(year, day.dayNumber);
