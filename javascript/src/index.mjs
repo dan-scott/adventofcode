@@ -6,7 +6,7 @@ import { getInput } from "./common/inputs.mjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-const allowList = [5];
+const allowList = [];
 
 async function runYear(year) {
   const path = join(__dirname, `aoc_${year}`);
