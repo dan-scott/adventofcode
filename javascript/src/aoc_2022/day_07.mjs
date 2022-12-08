@@ -30,7 +30,7 @@ function parseTree(lines) {
       parent.subDirs.push(currentDir);
       lookup.set(currentDir.name, currentDir);
     } else if (line.length) {
-      let [s, n] = line.split(" ");
+      let [s] = line.split(" ");
       currentDir.size += parseInt(s, 10);
     }
   }
