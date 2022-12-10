@@ -2,8 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { part1, part2 } from "./day_01.mjs";
 
-test("Day 01 example", async (t) => {
-  const input = `1000
+const input = `1000
 2000
 3000
 
@@ -19,13 +18,12 @@ test("Day 01 example", async (t) => {
 10000
 `;
 
-  await t.test("Part 1", async () => {
-    const result = await part1(input);
-    assert.strictEqual(result, 24000);
-  });
+test("Day 1 Part 1", () => {
+  const result = part1(input);
+  assert.strictEqual(result, 24000);
+});
 
-  await t.test("Part 2", async () => {
-    const result = await part2(input);
-    assert.strictEqual(result, 45000);
-  });
+test("Day 1 Part 2", () => {
+  const result = part2(input);
+  assert.strictEqual(result, 45000);
 });

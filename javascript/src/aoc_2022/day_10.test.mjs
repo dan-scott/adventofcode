@@ -2,8 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import * as day from "./day_10.mjs";
 
-test("Day 10 example", async (t) => {
-  const input = `addx 15
+const input = `addx 15
 addx -11
 addx 6
 addx -3
@@ -150,12 +149,12 @@ noop
 noop
 noop`;
 
-  await t.test(`Part 1`, async () => {
-    const result = day.part1(input);
-    assert.strictEqual(result, 13140);
-  });
+test(`Day 10 Part 1`, () => {
+  const result = day.part1(input);
+  assert.strictEqual(result, 13140);
+});
 
-  const part2Output = `
+const part2Output = `
 ##..##..##..##..##..##..##..##..##..##..
 ###...###...###...###...###...###...###.
 ####....####....####....####....####....
@@ -163,8 +162,7 @@ noop`;
 ######......######......######......####
 #######.......#######.......#######.....`;
 
-  await t.test(`Part 2`, async () => {
-    const result = day.part2(input);
-    assert.strictEqual(result, part2Output);
-  });
+test(`Day 10 Part 2`, () => {
+  const result = day.part2(input);
+  assert.strictEqual(result.replace(/ /g, "."), part2Output);
 });

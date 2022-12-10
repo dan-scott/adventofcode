@@ -2,8 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import * as day from "./day_07.mjs";
 
-test("Day 07 example", async (t) => {
-  const input = `$ cd /
+const input = `$ cd /
 $ ls
 dir a
 14848514 b.txt
@@ -27,13 +26,12 @@ $ ls
 5626152 d.ext
 7214296 k`;
 
-  await t.test(`Part 1`, async () => {
-    const result = day.part1(input);
-    assert.strictEqual(result, 95437);
-  });
+test(`Day 7 Part 1`, () => {
+  const result = day.part1(input);
+  assert.strictEqual(result, 95437);
+});
 
-  await t.test(`Part 2`, async () => {
-    const result = day.part2(input);
-    assert.strictEqual(result, 24933642);
-  });
+test(`Day 7 Part 2`, () => {
+  const result = day.part2(input);
+  assert.strictEqual(result, 24933642);
 });
