@@ -1,55 +1,57 @@
 import { opendir } from "node:fs/promises";
-import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { dayNumber } from "./aoc_2022/day_04.mjs";
-import { getInput } from "./common/inputs.mjs";
+import { run } from "./runner.mjs";
 
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
+const srcDir = fileURLToPath(new URL(".", import.meta.url));
 
-const allowList = [];
+const args = process.argv.slice(2);
 
-async function runYear(year) {
-  const path = join(__dirname, `aoc_${year}`);
-  const yearDir = await opendir(path);
-  const days = [];
-  for await (const entry of yearDir) {
-    if (entry.name.includes("test")) {
-      continue;
-    }
+const num = new RegExp(/\d+/);
 
-    const day = await import(join(path, entry.name));
-    if (!day.dayNumber) {
-      throw new Error("dayNumber not exported by", entry.name);
-    }
+const validArgs = ["--year", "-y", "--day", "-d", "--bench", "-b"];
 
-    days[day.dayNumber - 1] = day;
+const years = [];
+const days = [];
+let benchMode = false;
+
+while (args.length) {
+  const arg = args.shift();
+  if (!validArgs.includes(arg)) {
+    console.log(
+      `usage: ${process.argv[0]} ${process.argv[1]} [-y|--year (number)]* [-d|--day (number)]*`
+    );
+    process.exit(1);
   }
-
-  console.log("---------------------------------------------------");
-  for (const day of days) {
-    if (!day) {
-      continue;
+  if (arg === "-b" || arg === "--bench") {
+    benchMode = true;
+    continue;
+  }
+  while (num.test(args[0])) {
+    const val = parseInt(args.shift(), 10);
+    switch (arg) {
+      case "-y":
+      case "--year":
+        years.push(val);
+        break;
+      case "-d":
+      case "--day":
+        days.push(val);
+        break;
     }
-    if (day.skip) {
-      console.log(`Skipping Day ${day.dayNumber}`);
-      continue;
-    }
-    if (allowList.length && !allowList.includes(day.dayNumber)) {
-      continue;
-    }
-    const input = await getInput(year, day.dayNumber);
-    if (day.part1) {
-      console.log(`Day ${day.dayNumber} part 1:`, day.part1(input));
-    } else {
-      console.log(`Day ${dayNumber} part 1 not found`);
-    }
-    if (day.part2) {
-      console.log(`Day ${day.dayNumber} part 2:`, day.part2(input));
-    } else {
-      console.log(`Day ${dayNumber} part 2 not found`);
-    }
-    console.log("---------------------------------------------------");
   }
 }
 
-await runYear(2022);
+if (!years.length) {
+  const yearDir = await opendir(srcDir);
+  for await (const ent of yearDir) {
+    if (!ent.name.includes("aoc_")) {
+      continue;
+    }
+    years.push(parseInt(ent.name.split("_")[1], 10));
+  }
+  years.sort((a, b) => a - b);
+}
+
+for (const year of years) {
+  await run({ year, days, benchMode });
+}

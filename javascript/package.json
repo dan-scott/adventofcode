@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.mjs",
     "test": "node --test",
-    "bench": "node src/benches.mjs"
+    "bench": "node src/index.mjs -b"
   },
   "author": "",
   "license": "ISC",
