@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import * as day from "./day_07.mjs";
+import * as day from "../day_07.mjs";
 
 const input = `$ cd /
 $ ls

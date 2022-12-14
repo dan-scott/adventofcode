@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import * as day from "./day_04.mjs";
+import * as day from "../day_04.mjs";
 
 const input = `2-4,6-8
 2-3,4-5

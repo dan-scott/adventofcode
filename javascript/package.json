@@ -5,7 +5,7 @@
   "main": "src/index.mjs",
   "scripts": {
     "start": "node src/index.mjs",
-    "test": "node --test --inspect",
+    "test": "node --test",
     "bench": "node src/index.mjs -b"
   },
   "author": "",

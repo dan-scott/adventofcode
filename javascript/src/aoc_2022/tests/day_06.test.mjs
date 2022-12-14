@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import * as day from "./day_06.mjs";
+import * as day from "../day_06.mjs";
 
 const inputs = [
   ["bvwbjplbgvbhsrlpgdmjqwftvncz", 5],

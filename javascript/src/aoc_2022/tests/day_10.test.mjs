@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import * as day from "./day_10.mjs";
+import * as day from "../day_10.mjs";
 
 const input = `addx 15
 addx -11

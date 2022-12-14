@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { part1, part2 } from "./day_01.mjs";
-
+import * as day from "../day_01.mjs";
 const input = `1000
 2000
 3000
@@ -19,11 +18,11 @@ const input = `1000
 `;
 
 test("Day 1 Part 1", () => {
-  const result = part1(input);
+  const result = day.part1(input);
   assert.strictEqual(result, 24000);
 });
 
 test("Day 1 Part 2", () => {
-  const result = part2(input);
+  const result = day.part2(input);
   assert.strictEqual(result, 45000);
 });

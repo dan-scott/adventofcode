@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import * as day from "./day_13.mjs";
+import * as day from "../day_13.mjs";
 
 const input = `[1,1,3,1,1]
 [1,1,5,1,1]

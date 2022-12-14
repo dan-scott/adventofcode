@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import * as day from "./day_11.mjs";
+import * as day from "../day_11.mjs";
 
 const input = `Monkey 0:
 Starting items: 79, 98
