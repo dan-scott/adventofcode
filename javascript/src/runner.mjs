@@ -80,15 +80,32 @@ async function runDays(year, days) {
 
 function reportBenchmarks(results) {
   const f = new Intl.NumberFormat();
+  const format = (hrnum) => {
+    if (typeof hrnum !== "bigint") {
+      return hrnum + "";
+    }
+    let num = Number(hrnum);
+    let unit = "us";
+    num /= 1000;
+    if (num > 1000) {
+      unit = "ms";
+      num /= 1000;
+    }
+    if (num > 1000) {
+      unit = "s";
+      num /= 1000;
+    }
+    return f.format(num) + unit;
+  };
 
   const padTime = Math.max(
     ...results
       .flatMap(({ time, p1, p2 }) => [time, p1.time, p2.time])
-      .map((t) => f.format(t).length)
+      .map((t) => format(t).length)
   );
 
   const header =
-    "| Day | " +
+    "|   Day | " +
     "Part 1".padStart(padTime, " ") +
     " | " +
     "Part 2".padStart(padTime, " ") +
@@ -104,17 +121,29 @@ function reportBenchmarks(results) {
 
   const printDay = ({ dayNumber, time, p1, p2 }) => {
     const line = [
-      [dayNumber, 3],
+      [dayNumber, 5],
       [p1.time, padTime],
       [p2.time, padTime],
       [time, padTime],
     ]
-      .map(([v, p]) => f.format(v).padStart(p, " "))
+      .map(([v, p]) => format(v).padStart(p, " "))
       .join(" | ");
     console.log("|", line, "|");
   };
 
   results.forEach(printDay);
+
+  console.log(divider);
+
+  let totals = results.pop();
+  totals = results.reduce((t, r) => {
+    t.p1.time += r.p1.time;
+    t.p2.time += r.p2.time;
+    t.time += r.time;
+    return t;
+  }, totals);
+  totals.dayNumber = "Total";
+  printDay(totals);
 
   console.log(divider);
 }
