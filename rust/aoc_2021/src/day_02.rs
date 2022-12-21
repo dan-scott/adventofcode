@@ -1,5 +1,5 @@
-use aoc_base::Day;
-use std::{str::FromStr, time::Instant};
+use aoc_base::{Day, DayResult};
+use std::str::FromStr;
 
 enum Instruction {
     Forward(usize),
@@ -34,9 +34,7 @@ impl Day for Day02 {
         2
     }
 
-    fn part_1(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
-        let s = Instant::now();
-
+    fn part_1(&self, lines: &[String]) -> anyhow::Result<DayResult> {
         let mut h = 0;
         let mut v = 0;
         let ins: Vec<Instruction> = lines.iter().map(|l| l.parse().unwrap()).collect();
@@ -48,14 +46,11 @@ impl Day for Day02 {
                 Instruction::Forward(m) => h += m,
             }
         }
-        let e = s.elapsed();
         let a = (h * v).to_string();
-        anyhow::Ok((e, a))
+        anyhow::Ok(a.into())
     }
 
-    fn part_2(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
-        let s = Instant::now();
-
+    fn part_2(&self, lines: &[String]) -> anyhow::Result<DayResult> {
         let mut h = 0;
         let mut v = 0;
         let mut ah = 0;
@@ -71,9 +66,8 @@ impl Day for Day02 {
                 }
             }
         }
-        let e = s.elapsed();
         let a = (h * v).to_string();
-        anyhow::Ok((e, a))
+        anyhow::Ok(a.into())
     }
 }
 

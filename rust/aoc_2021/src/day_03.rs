@@ -1,6 +1,5 @@
 use anyhow::{Ok, Result};
-use aoc_base::Day;
-use std::time::Instant;
+use aoc_base::{Day, DayResult};
 
 pub struct Day03 {}
 
@@ -17,8 +16,7 @@ impl Day for Day03 {
         3
     }
 
-    fn part_1(&self, lines: &[String]) -> Result<(std::time::Duration, String)> {
-        let s = Instant::now();
+    fn part_1(&self, lines: &[String]) -> Result<DayResult> {
         let zero_count = count_zeros(lines);
         let mut gamma = 0;
         let mut epsilon = 0;
@@ -33,12 +31,10 @@ impl Day for Day03 {
             }
         }
         let sln = epsilon * gamma;
-        let e = s.elapsed();
-        Ok((e, sln.to_string()))
+        Ok(sln.into())
     }
 
-    fn part_2(&self, lines: &[String]) -> Result<(std::time::Duration, String)> {
-        let s = Instant::now();
+    fn part_2(&self, lines: &[String]) -> Result<DayResult> {
         let mut o2_list = lines.to_vec();
         let mut co2_list = lines.to_vec();
         let mut i = 0;
@@ -62,9 +58,8 @@ impl Day for Day03 {
             .map(|l| usize::from_str_radix(l, 2).unwrap())
             .unwrap();
 
-        let sln = (o2 * co2).to_string();
-        let e = s.elapsed();
-        Ok((e, sln))
+        let sln = o2 * co2;
+        Ok(sln.into())
     }
 }
 

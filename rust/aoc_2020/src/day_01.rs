@@ -1,6 +1,4 @@
-use std::time::Instant;
-
-use aoc_base::Day;
+use aoc_base::{Day, DayResult};
 use itertools::Itertools;
 
 pub struct Day01 {}
@@ -18,8 +16,7 @@ impl Day for Day01 {
         1
     }
 
-    fn part_1(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
-        let s = Instant::now();
+    fn part_1(&self, lines: &[String]) -> anyhow::Result<DayResult> {
         let (l, r) = lines
             .iter()
             .map(|l| l.parse::<i64>())
@@ -29,11 +26,10 @@ impl Day for Day01 {
             .find(|(a, b)| a + b == 2020)
             .expect("No combination found");
 
-        Ok((s.elapsed(), (l * r).to_string()))
+        Ok((l * r).into())
     }
 
-    fn part_2(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
-        let s = Instant::now();
+    fn part_2(&self, lines: &[String]) -> anyhow::Result<DayResult> {
         let (a, b, c) = lines
             .iter()
             .map(|l| l.parse::<i64>())
@@ -43,7 +39,7 @@ impl Day for Day01 {
             .find(|(a, b, c)| a + b + c == 2020)
             .expect("No combination found");
 
-        Ok((s.elapsed(), (a * b * c).to_string()))
+        Ok((a * b * c).into())
     }
 }
 

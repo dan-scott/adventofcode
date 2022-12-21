@@ -1,0 +1,47 @@
+#[derive(Clone, Copy, Hash, PartialEq, Eq)]
+pub struct Vec2 {
+    pub x: isize,
+    pub y: isize,
+}
+
+impl Vec2 {
+    pub fn zero() -> Self {
+        Vec2 { x: 0, y: 0 }
+    }
+
+    pub fn new(x: isize, y: isize) -> Self {
+        Vec2 { x, y }
+    }
+
+    pub fn add(&self, other: Self) -> Self {
+        Vec2 {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+
+    pub fn mult(&self, mag: isize) -> Self {
+        Vec2 {
+            x: self.x * mag,
+            y: self.y * mag,
+        }
+    }
+
+    pub fn rot_left(&self) -> Self {
+        Vec2 {
+            x: -self.y,
+            y: self.x,
+        }
+    }
+
+    pub fn rot_right(&self) -> Self {
+        Vec2 {
+            x: self.y,
+            y: -self.x,
+        }
+    }
+
+    pub fn manhattan_dist(&self, other: Self) -> isize {
+        (self.x - other.x).abs() + (self.y - other.y).abs()
+    }
+}

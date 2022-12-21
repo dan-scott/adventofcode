@@ -1,5 +1,4 @@
-use aoc_base::Day;
-use std::time::Instant;
+use aoc_base::{Day, DayResult};
 
 struct Day02 {}
 
@@ -16,26 +15,24 @@ impl Day for Day02 {
         2
     }
 
-    fn part_1(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
-        let s = Instant::now();
-        let count = lines
+    fn part_1(&self, lines: &[String]) -> anyhow::Result<DayResult> {
+        Ok(lines
             .iter()
             .map(parse_line)
             .map(Result::unwrap)
             .filter(|(policy, password)| policy.is_valid_range(password))
-            .count();
-        anyhow::Ok((s.elapsed(), count.to_string()))
+            .count()
+            .into())
     }
 
-    fn part_2(&self, lines: &[String]) -> anyhow::Result<(std::time::Duration, String)> {
-        let s = Instant::now();
-        let count = lines
+    fn part_2(&self, lines: &[String]) -> anyhow::Result<DayResult> {
+        Ok(lines
             .iter()
             .map(parse_line)
             .map(Result::unwrap)
             .filter(|(policy, password)| policy.is_valid_pos(password))
-            .count();
-        anyhow::Ok((s.elapsed(), count.to_string()))
+            .count()
+            .into())
     }
 }
 

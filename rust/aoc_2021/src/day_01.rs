@@ -1,6 +1,5 @@
 use anyhow::{Ok, Result};
-use aoc_base::Day;
-use std::time::{Duration, Instant};
+use aoc_base::{Day, DayResult};
 
 pub struct Day01 {}
 
@@ -17,20 +16,16 @@ impl Day for Day01 {
         1
     }
 
-    fn part_1(&self, lines: &[String]) -> Result<(Duration, String)> {
-        let s = Instant::now();
+    fn part_1(&self, lines: &[String]) -> Result<DayResult> {
         let readings: Vec<usize> = lines.iter().map(|l| l.parse().unwrap()).collect();
         let solution = readings.windows(2).filter(|w| w[0] < w[1]).count();
-        let e = s.elapsed();
-        Ok((e, solution.to_string()))
+        Ok(solution.into())
     }
 
-    fn part_2(&self, lines: &[String]) -> Result<(Duration, String)> {
-        let s = Instant::now();
+    fn part_2(&self, lines: &[String]) -> Result<DayResult> {
         let readings: Vec<usize> = lines.iter().map(|l| l.parse().unwrap()).collect();
         let solution = readings.windows(4).filter(|w| w[0] < w[3]).count();
-        let e = s.elapsed();
-        Ok((e, solution.to_string()))
+        Ok(solution.into())
     }
 }
 
