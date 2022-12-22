@@ -8,6 +8,7 @@ pub mod vec2;
 pub enum DayResult {
     Int(i128),
     Str(String),
+    Todo,
 }
 
 macro_rules! day_result_from {
@@ -43,6 +44,7 @@ impl Display for DayResult {
         match self {
             DayResult::Int(i) => write!(f, "{}", i),
             DayResult::Str(s) => write!(f, "{}", s),
+            DayResult::Todo => write!(f, "todo"),
         }
     }
 }
