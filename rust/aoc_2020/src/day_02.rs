@@ -99,7 +99,7 @@ mod test {
         let expected = 393;
         let res = new().part_1(&lines);
         match res {
-            Ok((_, answer)) => assert_eq!(answer, expected.to_string()),
+            Ok(answer) => assert_eq!(answer, expected.into()),
             Err(er) => assert_eq!(er.to_string(), ""),
         }
     }
@@ -108,7 +108,7 @@ mod test {
     fn day_02_part_2() {
         let lines = aoc_base::inputs::lines(2020, 2);
         let expected = 690;
-        let (_, answer) = new().part_2(&lines).unwrap();
-        assert_eq!(answer, expected.to_string())
+        let answer = new().part_2(&lines).unwrap();
+        assert_eq!(answer, expected.into())
     }
 }

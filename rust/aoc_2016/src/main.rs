@@ -5,6 +5,7 @@ fn main() {
         aoc_2016::day_01::new(),
         aoc_2016::day_02::new(),
         aoc_2016::day_03::new(),
+        aoc_2016::day_04::new(),
     ];
 
     runner::run_days(days).unwrap();

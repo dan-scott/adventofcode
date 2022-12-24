@@ -52,15 +52,15 @@ mod test {
     fn day_01_part_1() {
         let lines = aoc_base::inputs::lines(2020, 1);
         let expected = 211899;
-        let (_, answer) = new().part_1(&lines).unwrap();
-        assert_eq!(answer, expected.to_string())
+        let answer = new().part_1(&lines).unwrap();
+        assert_eq!(answer, expected.into())
     }
 
     #[test]
     fn day_01_part_2() {
         let lines = aoc_base::inputs::lines(2020, 1);
         let expected = 275765682;
-        let (_, answer) = new().part_2(&lines).unwrap();
-        assert_eq!(answer, expected.to_string())
+        let answer = new().part_2(&lines).unwrap();
+        assert_eq!(answer, expected.into())
     }
 }
