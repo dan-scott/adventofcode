@@ -58,7 +58,6 @@ test "part2Solver" {
         .{ .input = "1969", .expected = "966" },
         .{ .input = "100756", .expected = "50346" },
     };
-
     for (cases) |case| {
         const sln = try part2solver(alloc, case.input);
         defer alloc.free(sln);
