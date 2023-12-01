@@ -146,6 +146,6 @@ func parseLine(l string) (vec2.Vec2, vec2.Vec2) {
 	return parseVec(p[0]), parseVec(p[1])
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day05{}
 }

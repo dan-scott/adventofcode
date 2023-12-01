@@ -289,6 +289,6 @@ func parseLine(line string) *pair {
 	return current
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day18{}
 }

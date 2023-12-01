@@ -131,6 +131,6 @@ func (d *day12) rotateWp(deg int64) {
 	}
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day12{}
 }

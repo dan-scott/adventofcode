@@ -129,6 +129,6 @@ func (d *day04) Part2() string {
 	return fmt.Sprint(sum)
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day04{}
 }

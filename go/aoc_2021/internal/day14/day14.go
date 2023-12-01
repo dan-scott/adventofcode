@@ -7,7 +7,7 @@ import (
 	"math"
 )
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day14{}
 }
 

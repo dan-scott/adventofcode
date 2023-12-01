@@ -69,6 +69,6 @@ func (d *day15) callForTurn(maxTurns int) string {
 	return fmt.Sprint(last)
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day15{}
 }

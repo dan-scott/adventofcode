@@ -131,6 +131,6 @@ func (c *cave) valid(v vec2.Vec2) bool {
 	return v.X >= 0 && v.X < c.w && v.Y >= 0 && v.Y < c.h
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day11{}
 }

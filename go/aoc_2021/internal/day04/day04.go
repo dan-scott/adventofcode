@@ -130,6 +130,6 @@ func parseNums(numLine string) []int64 {
 	return nums
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day04{}
 }

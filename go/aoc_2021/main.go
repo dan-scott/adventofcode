@@ -27,7 +27,7 @@ import (
 )
 
 func main() {
-	days := []runner.Day{
+	days := []runner.LegacyDay{
 		day01.New(),
 		day02.New(),
 		day03.New(),
@@ -52,5 +52,5 @@ func main() {
 		day22.New(),
 	}
 
-	runner.Run(days)
+	runner.RunLegacy(days)
 }

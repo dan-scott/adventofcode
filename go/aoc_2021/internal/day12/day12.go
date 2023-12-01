@@ -144,6 +144,6 @@ func (d *day12) getBitStart() (caves map[int][]int, small int) {
 	return
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day12{}
 }

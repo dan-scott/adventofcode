@@ -178,6 +178,6 @@ func parseReport(lines []string) *report {
 	}
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day19{}
 }

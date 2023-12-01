@@ -105,6 +105,6 @@ func (d *day09) calcFloodFill(x int, y int) int {
 	return size
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day09{}
 }

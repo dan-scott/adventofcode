@@ -204,6 +204,6 @@ func (d *day11) Part2() string {
 	return fmt.Sprint(current.pop)
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day11{}
 }

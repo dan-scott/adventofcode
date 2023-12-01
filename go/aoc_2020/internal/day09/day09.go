@@ -71,6 +71,6 @@ Outer:
 	return 0, errors.New("no invalid numbers found")
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day09{}
 }

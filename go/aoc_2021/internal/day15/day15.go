@@ -7,7 +7,7 @@ import (
 	"gitlab.com/danscott/adventofcode/go/common/vec2"
 )
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day15{}
 }
 

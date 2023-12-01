@@ -87,7 +87,7 @@ func doFold(p paper, f fold) paper {
 	return p
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day13{}
 }
 

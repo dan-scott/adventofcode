@@ -149,6 +149,6 @@ func parseMinMax(s string) (min, max int) {
 	return
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day17{}
 }

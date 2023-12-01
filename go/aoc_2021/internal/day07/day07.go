@@ -135,6 +135,6 @@ func (d *day07) load(s string) {
 	d.crabs = crabs
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day07{bin: true}
 }

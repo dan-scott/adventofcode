@@ -86,6 +86,6 @@ func (d *day05) Part2() string {
 	return "not found"
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day05{}
 }

@@ -51,6 +51,6 @@ func (d *day10) Part2() string {
 	return fmt.Sprint(pathCt[d.adapters[len(d.adapters)-1]])
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day10{}
 }

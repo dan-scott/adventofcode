@@ -52,6 +52,6 @@ func (d *day06) loadInput(s string) {
 	d.fish = fish
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day06{}
 }

@@ -58,6 +58,6 @@ func (d *day02) Part2() string {
 	return fmt.Sprint(dpt * hrz)
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day02{}
 }

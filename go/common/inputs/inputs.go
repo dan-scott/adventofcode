@@ -31,10 +31,26 @@ func Scanner(year, day uint) (*bufio.Scanner, CloseFn) {
 	}
 }
 
+type stringReader struct {
+	cursor int
+	str    string
+}
+
+func (s *stringReader) Read(p []byte) (n int, err error) {
+	ct := copy(p, s.str[s.cursor:])
+	s.cursor += ct
+	return ct, nil
+}
+
+func StrScanner(input string) *bufio.Scanner {
+	reader := stringReader{cursor: 0, str: input}
+	return bufio.NewScanner(&reader)
+}
+
 func LinesAsString(year, day uint) []string {
 	lines := make([]string, 0)
-	s, close := Scanner(year, day)
-	defer close()
+	s, closeScanner := Scanner(year, day)
+	defer closeScanner()
 	for s.Scan() {
 		lines = append(lines, s.Text())
 	}

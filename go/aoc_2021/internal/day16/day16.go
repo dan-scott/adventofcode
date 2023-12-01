@@ -221,6 +221,6 @@ func (d *day16) getParser() *parser {
 	return &parser{bits: bits}
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day16{}
 }

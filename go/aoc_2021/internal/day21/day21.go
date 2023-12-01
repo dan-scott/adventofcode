@@ -159,6 +159,6 @@ func (s *stack) any() bool {
 	return len(s.states) > 0
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day21{}
 }

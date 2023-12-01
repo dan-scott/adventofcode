@@ -314,6 +314,6 @@ func parseInput(input []string) *burrow {
 	return b
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day23{}
 }

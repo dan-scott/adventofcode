@@ -6,7 +6,7 @@ import (
 	"gitlab.com/danscott/adventofcode/go/common/runner"
 )
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day01{}
 }
 

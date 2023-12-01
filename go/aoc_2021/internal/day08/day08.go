@@ -154,6 +154,6 @@ func (dy *day08) loadLines(lines []string) {
 	dy.lines = lines
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day08{}
 }

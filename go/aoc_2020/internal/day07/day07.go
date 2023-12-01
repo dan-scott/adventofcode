@@ -158,6 +158,6 @@ func parseLine(l string) (bn bagName, children []child) {
 	return
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day07{}
 }

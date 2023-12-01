@@ -111,6 +111,6 @@ func getRange(inpt string) (min int, max int) {
 	return
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day22{}
 }

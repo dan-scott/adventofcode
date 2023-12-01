@@ -130,6 +130,6 @@ func (d *day20) parseInput() *img {
 	}
 }
 
-func New() runner.Day {
+func New() runner.LegacyDay {
 	return &day20{}
 }
