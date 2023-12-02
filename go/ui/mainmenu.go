@@ -3,6 +3,7 @@ package ui
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"gitlab.com/danscott/adventofcode/go/ui/breadcrumbs"
 	"strings"
 )
 
@@ -10,12 +11,14 @@ func newMainMenu() tea.Model {
 	return &mainMenu{
 		years:    []string{"2023", "2022", "2021", "2020", "2019"},
 		selected: 0,
+		bcr:      breadcrumbs.New("Select a year..."),
 	}
 }
 
 type mainMenu struct {
 	years    []string
 	selected int
+	bcr      *breadcrumbs.Model
 }
 
 func (m *mainMenu) Init() tea.Cmd {
@@ -33,6 +36,10 @@ func (m *mainMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			mov = -1
 		case "down":
 			mov = 1
+		case "enter":
+			m.bcr.Push(m.years[m.selected])
+		case "esc", "backspace":
+			m.bcr.Pop()
 		}
 	}
 	m.selected = (m.selected + len(m.years) + mov) % len(m.years)
@@ -42,6 +49,8 @@ func (m *mainMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m *mainMenu) View() string {
 	doc := strings.Builder{}
+
+	doc.WriteString(m.bcr.View())
 
 	selectedStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#fc8c03"))
 
