@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"fmt"
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"gitlab.com/danscott/adventofcode/go/ui/breadcrumbs"
@@ -16,9 +18,11 @@ func newMainMenu() tea.Model {
 }
 
 type mainMenu struct {
-	years    []string
-	selected int
-	bcr      *breadcrumbs.Model
+	years         []string
+	selected      int
+	bcr           *breadcrumbs.Model
+	height, width int
+	viewport      viewport.Model
 }
 
 func (m *mainMenu) Init() tea.Cmd {
@@ -41,7 +45,11 @@ func (m *mainMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "esc", "backspace":
 			m.bcr.Pop()
 		}
+	case tea.WindowSizeMsg:
+		m.width = msg.Width
+		m.height = msg.Height
 	}
+
 	m.selected = (m.selected + len(m.years) + mov) % len(m.years)
 
 	return m, nil
@@ -62,6 +70,7 @@ func (m *mainMenu) View() string {
 		}
 		doc.WriteString("\n")
 	}
+	doc.WriteString(fmt.Sprintf("%d - %d", m.width, m.height))
 
 	return doc.String()
 }
