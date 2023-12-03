@@ -38,3 +38,16 @@ func (v Vec2) Index(run int) int {
 func (v Vec2) MhdTo(o Vec2) int {
 	return int(math.Abs(float64(v.X-o.X)) + math.Abs(float64(v.Y-o.Y)))
 }
+
+func (v Vec2) Neighbours() []Vec2 {
+	return []Vec2{
+		Of(v.X-1, v.Y-1),
+		Of(v.X-1, v.Y),
+		Of(v.X-1, v.Y+1),
+		Of(v.X, v.Y-1),
+		Of(v.X, v.Y+1),
+		Of(v.X+1, v.Y-1),
+		Of(v.X+1, v.Y),
+		Of(v.X+1, v.Y+1),
+	}
+}
