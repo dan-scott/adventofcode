@@ -37,7 +37,6 @@ func (m *Model) View() string {
 	headerStr := ""
 	mainStr := ""
 	footerStr := ""
-	lipgloss.NewStyle().Border(lipgloss.NormalBorder(), true, false)
 	if m.Header != nil {
 		headerStr = m.Header.View()
 	}
@@ -58,5 +57,7 @@ func (m *Model) View() string {
 		mainStr = fmt.Sprintf("%s%s", mainStr, strings.Repeat("\n", maxMainH-mainH))
 	}
 
-	return fmt.Sprintf("%s%s%s", headerStr, mainStr, footerStr)
+	mainStyle := lipgloss.NewStyle().Border(lipgloss.NormalBorder(), true, false)
+
+	return fmt.Sprintf("%s\n%s\n%s", headerStr, mainStyle.Render(mainStr), footerStr)
 }
