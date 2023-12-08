@@ -6,6 +6,7 @@ import (
 	"github.com/danscott/adventofcode/go/aoc_2023/internal/day03"
 	"github.com/danscott/adventofcode/go/aoc_2023/internal/day04"
 	"github.com/danscott/adventofcode/go/aoc_2023/internal/day05"
+	"github.com/danscott/adventofcode/go/aoc_2023/internal/day06"
 	"github.com/danscott/adventofcode/go/common/runner"
 )
 
@@ -16,6 +17,7 @@ func main() {
 		day03.New(),
 		day04.New(),
 		day05.New(),
+		day06.New(),
 	}
 
 	runner.Run(days)
