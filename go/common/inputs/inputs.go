@@ -47,6 +47,12 @@ func StrScanner(input string) *bufio.Scanner {
 	return bufio.NewScanner(&reader)
 }
 
+func ScanWords(input string) *bufio.Scanner {
+	scanner := StrScanner(input)
+	scanner.Split(bufio.ScanWords)
+	return scanner
+}
+
 func LinesAsString(year, day uint) []string {
 	lines := make([]string, 0)
 	s, closeScanner := Scanner(year, day)

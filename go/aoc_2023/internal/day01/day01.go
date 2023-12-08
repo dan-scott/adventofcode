@@ -3,7 +3,7 @@ package day01
 import (
 	"bufio"
 	"fmt"
-	"gitlab.com/danscott/adventofcode/go/common/runner"
+	"github.com/danscott/adventofcode/go/common/runner"
 )
 
 func New() runner.Day {

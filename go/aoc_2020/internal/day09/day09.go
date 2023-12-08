@@ -3,8 +3,8 @@ package day09
 import (
 	"errors"
 	"fmt"
-	"gitlab.com/danscott/adventofcode/go/common/inputs"
-	"gitlab.com/danscott/adventofcode/go/common/runner"
+	"github.com/danscott/adventofcode/go/common/inputs"
+	"github.com/danscott/adventofcode/go/common/runner"
 	"math"
 )
 

@@ -3,8 +3,8 @@ package runner
 import (
 	"bufio"
 	"fmt"
+	"github.com/danscott/adventofcode/go/common/inputs"
 	"github.com/loov/hrtime"
-	"gitlab.com/danscott/adventofcode/go/common/inputs"
 )
 
 type Day interface {

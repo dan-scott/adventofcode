@@ -1,8 +1,8 @@
 package day04
 
 import (
+	"github.com/danscott/adventofcode/go/common/inputs"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/danscott/adventofcode/go/common/inputs"
 	"testing"
 )
 

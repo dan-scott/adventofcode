@@ -2,9 +2,9 @@ package day07
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/go/aoc_2020/internal"
-	"gitlab.com/danscott/adventofcode/go/common/inputs"
-	"gitlab.com/danscott/adventofcode/go/common/runner"
+	"github.com/danscott/adventofcode/go/aoc_2020/internal"
+	"github.com/danscott/adventofcode/go/common/inputs"
+	"github.com/danscott/adventofcode/go/common/runner"
 	"strings"
 )
 

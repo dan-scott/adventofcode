@@ -3,8 +3,8 @@ package day03
 import (
 	"bufio"
 	"fmt"
-	"gitlab.com/danscott/adventofcode/go/common/runner"
-	"gitlab.com/danscott/adventofcode/go/common/vec2"
+	"github.com/danscott/adventofcode/go/common/runner"
+	"github.com/danscott/adventofcode/go/common/vec2"
 	"strconv"
 )
 

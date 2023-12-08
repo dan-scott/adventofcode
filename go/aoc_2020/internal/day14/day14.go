@@ -2,8 +2,8 @@ package day14
 
 import (
 	"fmt"
-	"gitlab.com/danscott/adventofcode/go/common/inputs"
-	"gitlab.com/danscott/adventofcode/go/common/runner"
+	"github.com/danscott/adventofcode/go/common/inputs"
+	"github.com/danscott/adventofcode/go/common/runner"
 	"math"
 	"sort"
 	"strconv"

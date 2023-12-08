@@ -3,7 +3,7 @@ package day02
 import (
 	"bufio"
 	"fmt"
-	"gitlab.com/danscott/adventofcode/go/common/runner"
+	"github.com/danscott/adventofcode/go/common/runner"
 	"strconv"
 	"strings"
 )

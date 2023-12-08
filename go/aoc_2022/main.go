@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gitlab.com/danscott/adventofcode/go/aoc_2022/internal/day01"
-	"gitlab.com/danscott/adventofcode/go/common/runner"
+	"github.com/danscott/adventofcode/go/aoc_2022/internal/day01"
+	"github.com/danscott/adventofcode/go/common/runner"
 )
 
 func main() {
