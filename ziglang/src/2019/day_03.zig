@@ -8,8 +8,8 @@ const Vec2 = struct {
     x: i32,
     y: i32,
 
-    fn manhattan(self: *Vec2, from: Vec2) !i32 {
-        return try std.math.absInt(from.x - self.x) + try std.math.absInt(from.y - self.y);
+    fn manhattan(self: *Vec2, from: Vec2) i32 {
+        return @intCast(@abs(from.x - self.x) + @abs(from.y - self.y));
     }
 
     fn add(self: *Vec2, other: Vec2) void {
@@ -74,7 +74,7 @@ pub fn part1solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 
         for (0..step.dist) |_| {
             pos.add(unitDelta);
             if (map.contains(pos)) {
-                const dist = try pos.manhattan(ZERO_VEC);
+                const dist = pos.manhattan(ZERO_VEC);
                 minDist = @min(minDist, dist);
             }
         }
@@ -82,10 +82,62 @@ pub fn part1solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 
     return std.fmt.allocPrint(allocator, "{}", .{minDist});
 }
 
+const WireHopCount = struct {
+    wire1Hops: i32,
+    wire2Hops: i32,
+
+    pub fn combinedHops(self: *WireHopCount) i32 {
+        return self.wire1Hops + self.wire2Hops;
+    }
+};
+
+const WireHopMap = std.hash_map.AutoHashMap(Vec2, WireHopCount);
+
 pub fn part2solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 {
-    _ = input;
-    _ = allocator;
-    return "Not implemented";
+    var map = WireHopMap.init(allocator);
+    defer map.deinit();
+    var lineSplit = std.mem.splitScalar(u8, input, '\n');
+    const wire1 = lineSplit.next() orelse return "failed";
+    const wire2 = lineSplit.next() orelse return "failed";
+
+    var wire1Iter = WireIterator.from(wire1);
+    var pos = Vec2{ .x = 0, .y = 0 };
+    var hopCt: i32 = 0;
+    while (wire1Iter.next()) |step| {
+        const unitDelta = Vec2.unitDir(step.dir);
+        for (0..step.dist) |_| {
+            hopCt += 1;
+            pos.add(unitDelta);
+            if (map.getPtr(pos)) |posHops| {
+                posHops.wire1Hops = @min(posHops.wire1Hops, hopCt);
+            } else {
+                try map.put(pos, .{ .wire1Hops = hopCt, .wire2Hops = std.math.maxInt(i32) });
+            }
+        }
+    }
+
+    pos.x = 0;
+    pos.y = 0;
+    var wire2Iter = WireIterator.from(wire2);
+    var minHops: i32 = std.math.maxInt(i32);
+    hopCt = 0;
+    while (wire2Iter.next()) |step| {
+        const unitDelta = Vec2.unitDir(step.dir);
+        for (0..step.dist) |_| {
+            hopCt += 1;
+            pos.add(unitDelta);
+            if (map.getPtr(pos)) |posHops| {
+                posHops.wire2Hops = @min(posHops.wire2Hops, hopCt);
+                if (posHops.wire1Hops > -1) {
+                    minHops = @min(minHops, posHops.combinedHops());
+                }
+            } else {
+                try map.put(pos, .{ .wire1Hops = -1, .wire2Hops = hopCt });
+            }
+        }
+    }
+
+    return std.fmt.allocPrint(allocator, "{}", .{minHops});
 }
 
 const WireIterator = struct {
@@ -149,4 +201,34 @@ test "part1Solver" {
     }
 }
 
-test "part2Solver" {}
+test "part2Solver" {
+    const cases = [_]struct { input: []const u8, expected: []const u8 }{
+        .{
+            .input =
+            \\R8,U5,L5,D3
+            \\U7,R6,D4,L4
+            ,
+            .expected = "30",
+        },
+        .{
+            .input =
+            \\R75,D30,R83,U83,L12,D49,R71,U7,L72
+            \\U62,R66,U55,R34,D71,R55,D58,R83
+            ,
+            .expected = "610",
+        },
+        .{
+            .input =
+            \\R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
+            \\U98,R91,D20,R16,D67,R40,U7,R15,U6,R7
+            ,
+            .expected = "410",
+        },
+    };
+    const allocator = std.testing.allocator;
+    for (cases) |case| {
+        const actual = try part2solver(allocator, case.input);
+        defer allocator.free(actual);
+        try std.testing.expectEqualStrings(case.expected, actual);
+    }
+}

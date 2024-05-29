@@ -7,7 +7,10 @@ pub const DayInputError = error{
 };
 
 pub fn getDay(allocator: std.mem.Allocator, year: u16, day: u8) ![]const u8 {
-    const root = std.os.getenv("ADVENT_OF_CODE_ROOT") orelse {
+    var env = try std.process.getEnvMap(allocator);
+    defer env.deinit();
+
+    const root = env.get("ADVENT_OF_CODE_ROOT") orelse {
         std.log.err("ADVENT_OF_CODE_ROOT env var not set", .{});
         return DayInputError.RootDirNotSet;
     };
