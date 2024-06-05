@@ -17,8 +17,8 @@ pub fn part2solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 
     for (0..100) |noun| {
         for (0..100) |verb| {
             var vm = try IntcodeVM.new(allocator, input);
-            vm.mem[1] = noun;
-            vm.mem[2] = verb;
+            vm.mem[1] = @intCast(noun);
+            vm.mem[2] = @intCast(verb);
             vm.run();
             if (vm.mem[0] == 19690720) {
                 return std.fmt.allocPrint(allocator, "{}", .{100 * noun + verb});
