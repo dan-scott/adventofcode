@@ -152,8 +152,7 @@ pub const IntcodeVM = struct {
         const store = self.getParam(2);
         std.log.debug("IF {} != 0 THEN pc = {} ({})\n", .{ chk, store, chk != 0 });
         if (chk != 0) {
-            self.pc = store;
-            return 0;
+            return store - self.pc;
         }
         return 3;
     }
@@ -163,8 +162,7 @@ pub const IntcodeVM = struct {
         const store = self.getParam(2);
         std.log.debug("IF {} == 0 THEN pc = {} ({})\n", .{ chk, store, chk == 0 });
         if (chk == 0) {
-            self.pc = store;
-            return 0;
+            return store - self.pc;
         }
         return 3;
     }
