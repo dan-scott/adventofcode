@@ -22,11 +22,8 @@ pub const IntcodeVM = struct {
 
     pub fn new(allocator: std.mem.Allocator, program: []const u8) !Self {
         var tokens = std.mem.tokenizeScalar(u8, program, ',');
-        var memSize: usize = 0;
-        while (tokens.next()) |_| {
-            memSize += 1;
-        }
-        var mem = try allocator.alloc(isize, memSize);
+        const mem_size: usize = std.mem.count(u8, program, ",") + 1;
+        var mem = try allocator.alloc(isize, mem_size * 10);
         tokens.reset();
         var pc: usize = 0;
         while (tokens.next()) |token| {
@@ -42,6 +39,21 @@ pub const IntcodeVM = struct {
             .param_mode = .{ 0, 0, 0 },
             .input_val = 0,
             .output_val = 0,
+        };
+    }
+
+    pub fn clone(self: *Self) !Self {
+        const new_mem = try self.allocator.alloc(isize, self.mem.len);
+        @memcpy(new_mem, self.mem);
+        return .{
+            .pc = self.pc,
+            .mem = new_mem,
+            .allocator = self.allocator,
+            .state = self.state,
+            .current_op = self.current_op,
+            .param_mode = .{ self.param_mode[0], self.param_mode[1], self.param_mode[2] },
+            .input_val = self.input_val,
+            .output_val = self.output_val,
         };
     }
 
@@ -217,14 +229,16 @@ pub const IntcodeVM = struct {
 };
 
 test "Intcode VM day 2 spec" {
-    const cases = [_]struct { input: []const u8, expected: []const u8 }{
+    const cases = [_]struct { input: []const u8, expected: []const u8, len: usize }{
         .{
             .input = "1,9,10,3,2,3,11,0,99,30,40,50",
             .expected = "{ 3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50 }",
+            .len = 12,
         },
         .{
             .input = "1,0,0,0,99",
             .expected = "{ 2, 0, 0, 0, 99 }",
+            .len = 5,
         },
     };
     const alloc = std.testing.allocator;
@@ -232,7 +246,7 @@ test "Intcode VM day 2 spec" {
         var vm = try IntcodeVM.new(alloc, case.input);
         defer vm.deinit();
         vm.run();
-        const actual = try std.fmt.allocPrint(alloc, "{any}", .{vm.mem});
+        const actual = try std.fmt.allocPrint(alloc, "{any}", .{vm.mem[0..case.len]});
         defer alloc.free(actual);
         try std.testing.expectEqualStrings(case.expected, actual);
     }
