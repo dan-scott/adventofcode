@@ -2,6 +2,7 @@ const std = @import("std");
 
 pub const IntcodeVM = struct {
     pc: isize,
+    rb: isize,
     mem: []isize,
     allocator: std.mem.Allocator,
     state: State,
@@ -20,10 +21,13 @@ pub const IntcodeVM = struct {
         done,
     };
 
-    pub fn new(allocator: std.mem.Allocator, program: []const u8) !Self {
+    pub fn init(allocator: std.mem.Allocator, program: []const u8) !Self {
         var tokens = std.mem.tokenizeScalar(u8, program, ',');
         const mem_size: usize = std.mem.count(u8, program, ",") + 1;
         var mem = try allocator.alloc(isize, mem_size * 10);
+        for (0..mem.len) |i| {
+            mem[i] = 0;
+        }
         tokens.reset();
         var pc: usize = 0;
         while (tokens.next()) |token| {
@@ -32,6 +36,7 @@ pub const IntcodeVM = struct {
         }
         return .{
             .pc = 0,
+            .rb = 0,
             .mem = mem,
             .allocator = allocator,
             .state = .run,
@@ -47,6 +52,7 @@ pub const IntcodeVM = struct {
         @memcpy(new_mem, self.mem);
         return .{
             .pc = self.pc,
+            .rb = self.rb,
             .mem = new_mem,
             .allocator = self.allocator,
             .state = self.state,
@@ -98,6 +104,7 @@ pub const IntcodeVM = struct {
             6 => self.jff(),
             7 => self.lt(),
             8 => self.eq(),
+            9 => self.adjustRb(),
 
             99 => self.done(),
 
@@ -121,7 +128,7 @@ pub const IntcodeVM = struct {
     fn add(self: *Self) isize {
         const a = self.getParam(1);
         const b = self.getParam(2);
-        const addr = self.getMemAt(self.pc + 3);
+        const addr = self.getWriteAddr(3);
         std.log.debug("Add: {} := {} + {}\n", .{ addr, a, b });
         self.setMem(addr, a + b);
         return 4;
@@ -130,7 +137,7 @@ pub const IntcodeVM = struct {
     fn mul(self: *Self) isize {
         const a = self.getParam(1);
         const b = self.getParam(2);
-        const addr = self.getMemAt(self.pc + 3);
+        const addr = self.getWriteAddr(3);
         std.log.debug("Mul: {} := {} * {}\n", .{ addr, a, b });
         self.setMem(addr, a * b);
         return 4;
@@ -142,7 +149,7 @@ pub const IntcodeVM = struct {
             self.state = .await_input;
             return 0;
         } else if (self.state == .process_input) {
-            const addr = self.getMemAt(self.pc + 1);
+            const addr = self.getWriteAddr(3);
             std.log.debug("Save input: {} := {}\n", .{ addr, self.input_val });
             self.setMem(addr, self.input_val);
             self.state = .run;
@@ -182,7 +189,7 @@ pub const IntcodeVM = struct {
     fn lt(self: *Self) isize {
         const a = self.getParam(1);
         const b = self.getParam(2);
-        const addr = self.getMemAt(self.pc + 3);
+        const addr = self.getWriteAddr(3);
         std.log.debug("IF {0} < {1} THEN {2} := 1 ELSE {2} := 0 ({3})\n", .{ a, b, addr, a < b });
         if (a < b) {
             self.setMem(addr, 1);
@@ -195,7 +202,7 @@ pub const IntcodeVM = struct {
     fn eq(self: *Self) isize {
         const a = self.getParam(1);
         const b = self.getParam(2);
-        const addr = self.getMemAt(self.pc + 3);
+        const addr = self.getWriteAddr(3);
         std.log.debug("IF {0} == {1} THEN {2} := 1 ELSE {2} := 0 ({3})\n", .{ a, b, addr, a == b });
         if (a == b) {
             self.setMem(addr, 1);
@@ -203,6 +210,12 @@ pub const IntcodeVM = struct {
             self.setMem(addr, 0);
         }
         return 4;
+    }
+
+    fn adjustRb(self: *Self) isize {
+        const a = self.getParam(1);
+        self.rb += a;
+        return 2;
     }
 
     fn done(self: *Self) isize {
@@ -216,11 +229,21 @@ pub const IntcodeVM = struct {
     }
 
     fn getParam(self: *Self, nr: isize) isize {
+        const param_val = self.getMemAt(self.pc + nr);
         return switch (self.param_mode[@intCast(nr - 1)]) {
-            0 => self.getMemAt(self.getMemAt(self.pc + nr)),
-            1 => self.getMemAt(self.pc + nr),
+            0 => self.getMemAt(param_val),
+            1 => param_val,
+            2 => self.getMemAt(param_val + self.rb),
             else => unreachable,
         };
+    }
+
+    fn getWriteAddr(self: *Self, nr: isize) isize {
+        var addr = self.getMemAt(self.pc + nr);
+        if (self.param_mode[@intCast(nr - 1)] == 2) {
+            addr += self.rb;
+        }
+        return addr;
     }
 
     fn setMem(self: *Self, addr: isize, val: isize) void {
@@ -243,7 +266,7 @@ test "Intcode VM day 2 spec" {
     };
     const alloc = std.testing.allocator;
     for (cases) |case| {
-        var vm = try IntcodeVM.new(alloc, case.input);
+        var vm = try IntcodeVM.init(alloc, case.input);
         defer vm.deinit();
         vm.run();
         const actual = try std.fmt.allocPrint(alloc, "{any}", .{vm.mem[0..case.len]});
@@ -255,7 +278,7 @@ test "Intcode VM day 2 spec" {
 test "Intcode VM day 5 spec: ops 3 and 4" {
     const input = "3,5,4,5,99,0";
     const alloc = std.testing.allocator;
-    var vm = try IntcodeVM.new(alloc, input);
+    var vm = try IntcodeVM.init(alloc, input);
     defer vm.deinit();
     vm.run();
     vm.input(20);
@@ -283,18 +306,70 @@ test "Intcode VM day 5 spec: ops 5, 6, 7, 8" {
         // Jump, position mode
         .{ .code = "3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", .input = 0, .output = 0 },
         .{ .code = "3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", .input = 12, .output = 1 },
-        // // Jump, immediate mode
-        // .{ .code = "3,3,1105,-1,9,1101,0,0,12,4,12,99,1", .input = 0, .output = 0 },
-        // .{ .code = "3,3,1105,-1,9,1101,0,0,12,4,12,99,1", .input = 12, .output = 1 },
+        // Jump, immediate mode
+        .{ .code = "3,3,1105,-1,9,1101,0,0,12,4,12,99,1", .input = 0, .output = 0 },
+        .{ .code = "3,3,1105,-1,9,1101,0,0,12,4,12,99,1", .input = 12, .output = 1 },
     };
 
     const alloc = std.testing.allocator;
     for (cases) |case| {
-        var vm = try IntcodeVM.new(alloc, case.code);
+        var vm = try IntcodeVM.init(alloc, case.code);
         defer vm.deinit();
         vm.run();
         vm.input(case.input);
         const actual = vm.output();
         try std.testing.expectEqual(case.output, actual);
     }
+}
+
+test "Intcode VM day 9 spec: RelativeMode" {
+    const input = "109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99";
+    const allocator = std.testing.allocator;
+    var vm = try IntcodeVM.init(allocator, input);
+    defer vm.deinit();
+    vm.run();
+
+    const expected = try std.fmt.allocPrint(allocator, "{any}", .{vm.mem[0..16]});
+    defer allocator.free(expected);
+
+    var output = std.ArrayList(isize).init(allocator);
+    defer output.clearAndFree();
+
+    while (vm.state != .done) {
+        const val = vm.output();
+        try output.append(val);
+    }
+
+    const actualSlice = try output.toOwnedSlice();
+    defer allocator.free(actualSlice);
+
+    const actual = try std.fmt.allocPrint(allocator, "{any}", .{actualSlice});
+    defer allocator.free(actual);
+
+    try std.testing.expectEqualStrings(expected, actual);
+}
+
+test "Intcode VM day 9 spec: 16 digit output" {
+    const input = "1102,34915192,34915192,7,4,7,99,0";
+    const allocator = std.testing.allocator;
+    var vm = try IntcodeVM.init(allocator, input);
+    defer vm.deinit();
+    vm.run();
+
+    const output = vm.output();
+
+    try std.testing.expect(@divTrunc(output, 1000000000000000) > 0);
+}
+
+test "Incode VM day 9 spec: output big number" {
+    const input = "104,1125899906842624,99";
+
+    const allocator = std.testing.allocator;
+    var vm = try IntcodeVM.init(allocator, input);
+    defer vm.deinit();
+    vm.run();
+
+    const output = vm.output();
+
+    try std.testing.expectEqual(1125899906842624, output);
 }

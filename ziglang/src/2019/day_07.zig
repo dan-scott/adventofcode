@@ -6,7 +6,7 @@ pub const year = 2019;
 pub const day = 7;
 
 pub fn part1solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 {
-    var base_vm = try VM.new(allocator, input);
+    var base_vm = try VM.init(allocator, input);
     defer base_vm.deinit();
     base_vm.run();
 
@@ -73,7 +73,7 @@ pub fn part1solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 
 }
 
 pub fn part2solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 {
-    var base_vm = try VM.new(allocator, input);
+    var base_vm = try VM.init(allocator, input);
     defer base_vm.deinit();
     base_vm.run();
 
