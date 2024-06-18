@@ -149,7 +149,7 @@ pub const IntcodeVM = struct {
             self.state = .await_input;
             return 0;
         } else if (self.state == .process_input) {
-            const addr = self.getWriteAddr(3);
+            const addr = self.getWriteAddr(1);
             std.log.debug("Save input: {} := {}\n", .{ addr, self.input_val });
             self.setMem(addr, self.input_val);
             self.state = .run;

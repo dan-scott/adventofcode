@@ -24,23 +24,3 @@ pub fn part2solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 
 
     return std.fmt.allocPrint(allocator, "{}", .{output});
 }
-
-test "part1Solver" {
-    const cases = [_]struct { input: []const u8, expected: []const u8 }{};
-    const allocator = std.testing.allocator;
-    for (cases) |case| {
-        const actual = try part1solver(allocator, case.input);
-        defer allocator.free(actual);
-        try std.testing.expectEqualStrings(case.expected, actual);
-    }
-}
-
-test "part2Solver" {
-    const cases = [_]struct { input: []const u8, expected: []const u8 }{};
-    const allocator = std.testing.allocator;
-    for (cases) |case| {
-        const actual = try part2solver(allocator, case.input);
-        defer allocator.free(actual);
-        try std.testing.expectEqualStrings(case.expected, actual);
-    }
-}
