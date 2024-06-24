@@ -1,4 +1,5 @@
 const std = @import("std");
+const m = @import("./math_utils.zig");
 
 pub fn Vec2(comptime T: type) type {
     return struct {
@@ -49,16 +50,7 @@ pub fn Vec2(comptime T: type) type {
             }
 
             // Simplify the gradient
-            // Euclid's algo to find GCD
-            var n: isize = @intCast(@abs(grad.x));
-            var d: isize = @intCast(@abs(grad.y));
-            while (n != d) {
-                if (n > d) {
-                    n -= d;
-                } else {
-                    d -= n;
-                }
-            }
+            const n: isize = m.gcd(grad.x, grad.y) catch unreachable;
 
             grad.x = @divTrunc(grad.x, n);
             grad.y = @divTrunc(grad.y, n);
@@ -80,6 +72,38 @@ pub fn Vec2(comptime T: type) type {
             const x2: f64 = @floatFromInt(std.math.pow(T, other.x - self.x, 2));
             const y2: f64 = @floatFromInt(std.math.pow(T, other.y - self.y, 2));
             return @sqrt(x2 + y2);
+        }
+    };
+}
+
+pub fn Vec3(comptime T: type) type {
+    return struct {
+        x: T,
+        y: T,
+        z: T,
+
+        const Self = @This();
+
+        pub fn of(x: T, y: T, z: T) Self {
+            return .{ .x = x, .y = y, .z = z };
+        }
+
+        pub fn zero() Self {
+            return .{ .x = 0, .y = 0, .z = 0 };
+        }
+
+        pub fn add(self: *const Self, other: *const Self) Self {
+            return .{
+                .x = self.x + other.x,
+                .y = self.y + other.y,
+                .z = self.z + other.z,
+            };
+        }
+
+        pub fn mutAdd(self: *Self, other: *const Self) void {
+            self.x += other.x;
+            self.y += other.y;
+            self.z += other.z;
         }
     };
 }

@@ -1,6 +1,6 @@
 const std = @import("std");
 const util = @import("../utils.zig");
-const Vec2 = @import("../vec2.zig").Vec2;
+const Vec2 = @import("../vec.zig").Vec2;
 
 pub const year = 2019;
 pub const day = 10;
