@@ -1,7 +1,6 @@
 const std = @import("std");
-const util = @import("../utils.zig");
-const Vec2 = @import("../vec.zig").Vec2;
-const VM = @import("./int_code_vm.zig").IntcodeVM;
+const util = @import("../util.zig");
+const VM = @import("./int_code_vm.zig").VM;
 
 pub const year = 2019;
 pub const day = 11;
@@ -126,7 +125,7 @@ const Dir = struct {
     }
 };
 
-const Vec = Vec2(isize);
+const Vec = util.vec.Vec2(isize);
 
 const Hull = struct {
     min: Vec,

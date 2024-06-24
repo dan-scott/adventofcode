@@ -1,6 +1,6 @@
 const std = @import("std");
 
-pub const IntcodeVM = struct {
+pub const VM = struct {
     pc: isize,
     rb: isize,
     mem: []isize,
@@ -266,7 +266,7 @@ test "Intcode VM day 2 spec" {
     };
     const alloc = std.testing.allocator;
     for (cases) |case| {
-        var vm = try IntcodeVM.init(alloc, case.input);
+        var vm = try VM.init(alloc, case.input);
         defer vm.deinit();
         vm.run();
         const actual = try std.fmt.allocPrint(alloc, "{any}", .{vm.mem[0..case.len]});
@@ -278,7 +278,7 @@ test "Intcode VM day 2 spec" {
 test "Intcode VM day 5 spec: ops 3 and 4" {
     const input = "3,5,4,5,99,0";
     const alloc = std.testing.allocator;
-    var vm = try IntcodeVM.init(alloc, input);
+    var vm = try VM.init(alloc, input);
     defer vm.deinit();
     vm.run();
     vm.input(20);
@@ -313,7 +313,7 @@ test "Intcode VM day 5 spec: ops 5, 6, 7, 8" {
 
     const alloc = std.testing.allocator;
     for (cases) |case| {
-        var vm = try IntcodeVM.init(alloc, case.code);
+        var vm = try VM.init(alloc, case.code);
         defer vm.deinit();
         vm.run();
         vm.input(case.input);
@@ -325,7 +325,7 @@ test "Intcode VM day 5 spec: ops 5, 6, 7, 8" {
 test "Intcode VM day 9 spec: RelativeMode" {
     const input = "109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99";
     const allocator = std.testing.allocator;
-    var vm = try IntcodeVM.init(allocator, input);
+    var vm = try VM.init(allocator, input);
     defer vm.deinit();
     vm.run();
 
@@ -352,7 +352,7 @@ test "Intcode VM day 9 spec: RelativeMode" {
 test "Intcode VM day 9 spec: 16 digit output" {
     const input = "1102,34915192,34915192,7,4,7,99,0";
     const allocator = std.testing.allocator;
-    var vm = try IntcodeVM.init(allocator, input);
+    var vm = try VM.init(allocator, input);
     defer vm.deinit();
     vm.run();
 
@@ -365,7 +365,7 @@ test "Incode VM day 9 spec: output big number" {
     const input = "104,1125899906842624,99";
 
     const allocator = std.testing.allocator;
-    var vm = try IntcodeVM.init(allocator, input);
+    var vm = try VM.init(allocator, input);
     defer vm.deinit();
     vm.run();
 

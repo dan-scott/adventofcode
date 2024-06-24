@@ -1,12 +1,11 @@
 const std = @import("std");
-const util = @import("../utils.zig");
-const IntcodeVM = @import("./int_code_vm.zig").IntcodeVM;
+const VM = @import("./int_code_vm.zig").VM;
 
 pub const year = 2019;
 pub const day = 2;
 
 pub fn part1solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 {
-    var vm = try IntcodeVM.init(allocator, input);
+    var vm = try VM.init(allocator, input);
     vm.mem[1] = 12;
     vm.mem[2] = 2;
     vm.run();
@@ -16,7 +15,7 @@ pub fn part1solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 
 pub fn part2solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 {
     for (0..100) |noun| {
         for (0..100) |verb| {
-            var vm = try IntcodeVM.init(allocator, input);
+            var vm = try VM.init(allocator, input);
             vm.mem[1] = @intCast(noun);
             vm.mem[2] = @intCast(verb);
             vm.run();

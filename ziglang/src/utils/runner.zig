@@ -1,8 +1,5 @@
 const std = @import("std");
 
-pub const math = @import("./math_utils.zig");
-pub const vec = @import("./vec.zig");
-
 pub const DayInputError = error{
     RootDirNotSet,
     InputFileNotFound,

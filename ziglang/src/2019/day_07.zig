@@ -1,6 +1,5 @@
 const std = @import("std");
-const util = @import("../utils.zig");
-const VM = @import("./int_code_vm.zig").IntcodeVM;
+const VM = @import("./int_code_vm.zig").VM;
 
 pub const year = 2019;
 pub const day = 7;

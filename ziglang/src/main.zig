@@ -14,6 +14,5 @@ pub fn main() !void {
 }
 
 test "aoc" {
-    _ = @import("./utils.zig");
-    _ = @import("./2019/aoc_2019.zig");
+    std.testing.refAllDecls(@This());
 }

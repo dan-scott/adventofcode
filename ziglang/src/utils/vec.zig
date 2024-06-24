@@ -1,5 +1,5 @@
 const std = @import("std");
-const m = @import("./math_utils.zig");
+const m = @import("./math.zig");
 
 pub fn Vec2(comptime T: type) type {
     return struct {

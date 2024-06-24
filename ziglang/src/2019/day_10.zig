@@ -1,11 +1,10 @@
 const std = @import("std");
-const util = @import("../utils.zig");
-const Vec2 = @import("../vec.zig").Vec2;
+const util = @import("../util.zig");
 
 pub const year = 2019;
 pub const day = 10;
 
-const Vec = Vec2(isize);
+const Vec = util.vec.Vec2(isize);
 
 const VecSet = std.AutoHashMap(Vec, void);
 
