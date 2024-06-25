@@ -246,7 +246,7 @@ pub const VM = struct {
         return addr;
     }
 
-    fn setMem(self: *Self, addr: isize, val: isize) void {
+    pub fn setMem(self: *Self, addr: isize, val: isize) void {
         self.mem[@intCast(addr)] = val;
     }
 };
