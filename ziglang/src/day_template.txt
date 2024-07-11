@@ -5,15 +5,13 @@ pub const year = ;
 pub const day = ;
 
 pub fn part1solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 {
-    _ = allocator;
     _ = input;
-    return "Not implemented";
+    return std.fmt.allocPrint(allocator, "Not implemented", .{});
 }
 
 pub fn part2solver(allocator: std.mem.Allocator, input: []const u8) ![]const u8 {
-    _ = allocator;
     _ = input;
-    return "Not implemented";
+    return std.fmt.allocPrint(allocator, "Not implemented", .{});
 }
 
 test "part1Solver" {

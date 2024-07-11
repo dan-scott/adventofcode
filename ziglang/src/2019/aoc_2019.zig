@@ -15,6 +15,7 @@ pub fn run(allocator: std.mem.Allocator) !void {
     try dayRunner(allocator, @import("./day_11.zig"));
     try dayRunner(allocator, @import("./day_12.zig"));
     try dayRunner(allocator, @import("./day_13.zig"));
+    try dayRunner(allocator, @import("./day_14.zig"));
 }
 
 test "aoc_2019" {
