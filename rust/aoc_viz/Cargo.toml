@@ -1,0 +1,8 @@
+[package]
+name = "aoc_viz"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aoc_base = { path = "../aoc_base" }
+raylib = "5.0.2"

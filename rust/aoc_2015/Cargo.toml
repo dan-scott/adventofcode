@@ -1,0 +1,8 @@
+[package]
+name = "aoc_2015"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aoc_base = { path = "../aoc_base" }
+anyhow = "1.0.86"

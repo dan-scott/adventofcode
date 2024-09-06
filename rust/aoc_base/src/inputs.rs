@@ -3,8 +3,6 @@ use std::{
     io::{BufRead, BufReader},
 };
 
-trait InputParser {}
-
 pub fn open_file(year: u16, day: u8) -> BufReader<File> {
     let root_path = match std::env::var_os("ADVENT_OF_CODE_ROOT") {
         Some(v) => v.into_string().unwrap(),
