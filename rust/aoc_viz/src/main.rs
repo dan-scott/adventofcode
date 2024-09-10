@@ -1,12 +1,10 @@
 mod scene;
 mod years;
 
-use crate::scene::{SceneContainer, ScenePart, ScenePartLoader};
+use crate::scene::{SceneContainer, ScenePart};
 use aoc_base::inputs::lines;
-use aoc_base::Day;
 use raylib::prelude::*;
 use scene::{SCREEN_HEIGHT, SCREEN_WIDTH};
-use std::ops::Deref;
 
 enum State {
     Index,
@@ -14,7 +12,10 @@ enum State {
 }
 
 fn main() {
-    let mut days: Vec<SceneContainer> = vec![years::year_2015::day_01::container()];
+    let days: Vec<SceneContainer> = vec![
+        years::year_2015::day_01::container(),
+        years::year_2015::day_02::container(),
+    ];
 
     let (mut rl, thread) = init()
         .size(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -60,6 +61,4 @@ fn main() {
             }
         }
     }
-
-    println!("Hello, world!");
 }

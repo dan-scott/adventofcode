@@ -6,7 +6,7 @@ pub(crate) fn container() -> SceneContainer {
     SceneContainer::of(2015, 1, Box::new(Loader {}))
 }
 
-pub struct Loader {}
+struct Loader;
 
 impl ScenePartLoader for Loader {
     fn load_part_1(&self, lines: &[String]) -> Box<dyn ScenePart> {
@@ -18,7 +18,7 @@ impl ScenePartLoader for Loader {
     }
 }
 
-pub struct Part1 {
+struct Part1 {
     floor: isize,
     cursor: usize,
     input: String,
@@ -61,7 +61,7 @@ impl ScenePart for Part1 {
     }
 }
 
-pub struct Part2 {
+struct Part2 {
     floor: isize,
     cursor: usize,
     input: String,

@@ -32,6 +32,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "aoc_base",
+ "nom",
 ]
 
 [[package]]
@@ -75,7 +76,9 @@ dependencies = [
 name = "aoc_viz"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "aoc_base",
+ "nom",
  "raylib",
 ]
 
