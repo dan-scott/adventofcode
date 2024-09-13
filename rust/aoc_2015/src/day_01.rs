@@ -1,12 +1,10 @@
 use anyhow::Error;
 use aoc_base::{Day, DayResult};
 
-pub struct Day01 {}
+struct Day01;
 
-impl Day01 {
-    pub(crate) fn new() -> Box<dyn Day> {
-        Box::new(Self {})
-    }
+pub fn new() -> Box<dyn Day> {
+    Box::new(Day01 {})
 }
 
 impl Day for Day01 {

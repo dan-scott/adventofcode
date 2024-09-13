@@ -1,3 +1,6 @@
+2015:
+    cargo run --bin aoc_2015 --release
+
 2016:
 	cargo run --bin aoc_2016 --release
 

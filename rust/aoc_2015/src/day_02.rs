@@ -1,15 +1,10 @@
-use anyhow::{Context, Result};
+use anyhow::Result;
 use aoc_base::{Day, DayResult};
-use nom::bytes::complete::tag;
-use nom::character::complete::digit1;
-use nom::sequence::tuple;
 
-pub struct Day02 {}
+struct Day02;
 
-impl Day02 {
-    pub fn new() -> Box<dyn Day> {
-        Box::new(Self {})
-    }
+pub fn new() -> Box<dyn Day> {
+    Box::new(Day02 {})
 }
 
 impl Day for Day02 {
@@ -44,22 +39,23 @@ fn get_sq_ft(input: &str) -> Result<usize> {
 }
 
 fn parse_line(input: &str) -> Result<[usize; 3]> {
-    let (_, (a, _, b, _, c)) = tuple((
-        digit1,
-        tag("x"),
-        digit1,
-        tag("x"),
-        digit1, //
-    ))(input)
-    .map_err(|e: nom::Err<nom::error::Error<&str>>| e.to_owned())
-    .context("Failed to nom or whatever")?;
+    let mut chars = input.split("x");
 
     let mut vals = [
-        a.parse::<usize>()?,
-        b.parse::<usize>()?,
-        c.parse::<usize>()?,
+        chars.next().unwrap().parse::<usize>()?,
+        chars.next().unwrap().parse::<usize>()?,
+        chars.next().unwrap().parse::<usize>()?,
     ];
-    vals.sort();
+    if vals[1] > vals[2] {
+        vals.swap(1, 2);
+    }
+    if vals[0] > vals[1] {
+        vals.swap(0, 1);
+    }
+    if vals[1] > vals[2] {
+        vals.swap(1, 2);
+    }
+    // vals.sort();
     Ok(vals)
 }
 

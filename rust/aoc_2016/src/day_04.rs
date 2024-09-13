@@ -1,4 +1,3 @@
-use anyhow::Error;
 use aoc_base::{Day, DayResult};
 use itertools::Itertools;
 use std::str::FromStr;
