@@ -9,6 +9,13 @@ pub enum DayResult {
     Int(i128),
     Str(String),
     Todo,
+    Skip,
+}
+
+impl Into<anyhow::Result<DayResult>> for DayResult {
+    fn into(self) -> anyhow::Result<DayResult> {
+        Ok(self)
+    }
 }
 
 macro_rules! day_result_from {
@@ -23,6 +30,7 @@ macro_rules! day_result_from {
 
 day_result_from!(i128);
 day_result_from!(i64);
+day_result_from!(u64);
 day_result_from!(i32);
 day_result_from!(isize);
 day_result_from!(usize);
@@ -45,6 +53,7 @@ impl Display for DayResult {
             DayResult::Int(i) => write!(f, "{}", i),
             DayResult::Str(s) => write!(f, "{}", s),
             DayResult::Todo => write!(f, "todo"),
+            DayResult::Skip => write!(f, "skip"),
         }
     }
 }

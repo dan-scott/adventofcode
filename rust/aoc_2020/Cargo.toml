@@ -6,8 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0.86"
-aoc_base = { path = "../aoc_base" }
+anyhow.workspace = true
+aoc_base.workspace = true
 itertools = "0.13.0"
 peg = "0.8.4"
 thiserror = "1.0.63"

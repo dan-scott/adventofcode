@@ -1,6 +1,5 @@
 [workspace]
 resolver = "2"
-
 members = [
     "aoc_base",
     "aoc_2015",
@@ -9,3 +8,8 @@ members = [
     "aoc_2021",
     "aoc_viz",
 ]
+
+[workspace.dependencies]
+anyhow = "^1"
+criterion = "0.5.1"
+aoc_base = { path = "./aoc_base" }

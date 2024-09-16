@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-aoc_base = { path = "../aoc_base" }
+aoc_base.workspace = true
 nom = "7.1.3"
 raylib = "5.0.2"
-anyhow = "1.0.86"
+anyhow.workspace = true

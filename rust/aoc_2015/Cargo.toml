@@ -4,14 +4,15 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-aoc_base = { path = "../aoc_base" }
-anyhow = "1.0.86"
+aoc_base.workspace = true
+anyhow.workspace = true
+rust-crypto = "0.2.36"
 
 [profile.dev]
 opt-level = 3
 
 [dev-dependencies]
-criterion = "0.5.1"
+criterion.workspace = true
 paste = "1.0.15"
 
 [[bench]]

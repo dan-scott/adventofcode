@@ -14,7 +14,7 @@ pub fn run_days(days: Vec<Box<dyn Day>>) -> Result<()> {
             .part_1(&lines)
             .context(format!("Failed on day {} part 1", day.number()))?;
         let p1_time = Instant::now().duration_since(s);
-        println!(" done in {:?}\t{}", p1_time, p1_solution);
+        println!(" done in {:<15?}{}", p1_time, p1_solution);
 
         print!("\tSolving part two...");
         let s = Instant::now();
@@ -22,7 +22,7 @@ pub fn run_days(days: Vec<Box<dyn Day>>) -> Result<()> {
             .part_2(&lines)
             .context(format!("Failed on day {} part 2", day.number()))?;
         let p2_time = Instant::now().duration_since(s);
-        println!(" done in {:?}\t{}\n", p2_time, p2_solution);
+        println!(" done in {:<15?}{}\n", p2_time, p2_solution);
 
         total_duration += p1_time + p2_time;
     }
